@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Réviboost</title>
+        <link rel="icon" href="Icon.png">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <div id="inline"><h1>Réviboost</h1><h3 style="letter-spacing: 1px;">Version 2.3.1</h3></div>
+        <div id="ultra_container">
+            <p></p>
+            <div id="container">
+                <div id="create">
+                    <p class="title_bigger">Créer une leçon :</p>
+                    <input id="pack_title" type="text" placeholder="Nom de la leçon">
+                    <select id="pack_type">
+                        <option value="defs">Définitions</option>
+                        <option value="dates">Dates</option>
+                    </select>
+                    <button onclick="createPack()">Créer la leçon</button>
+                </div>
+
+                <div class="beetween"></div>
+
+                <div id="add">
+                    <p class="title_bigger" id="add_p">Ajouter une définition :</p>
+                    <input id="pack_title_add" type="text" placeholder="Nom de la leçon">
+                    <input id="def_title" type="text" placeholder="Nom de la définition">
+                    <textarea id="def" cols="20" rows="5" placeholder="Définition"></textarea>
+                    <button onclick="addPack()">Ajouter à la leçon</button>
+                </div>
+
+                <div class="beetween"></div>
+
+                <div id="ask">
+                    <p class="title_bigger">Réviser :</p>
+                    <input id="pack_title_ask" type="text" placeholder="Nom de la leçon">
+                    <select id="questions_type_select">
+                        <option value="qcm">Choix multiples</option>
+                        <option value="write">Restitution à l'écrit</option>
+                    </select>
+                    <button id="ask_button" onclick="start()">M'interroger</button>
+                </div>
+            </div>
+           
+            <h2 id="lessons">Leçons</h2>
+        </div>
+        <div id="contain_files">
+            
+        </div>
+        
+        <div id="ask_div">
+            <p id="msg"></p>
+            <input type="text" id="asking">
+            <div id="writer">
+                
+            </div>
+        </div> 
+
+        
+
+        <p id="giga_msg"></p>
+
+
+        <div id="import_export">
+            <h2>Import/Export</h2>
+
+            <input id="file_input" placeholder="Nom du fichier">
+            <button onclick="exporting()">Export</button>
+            <br>
+            <label for="file">Sélectionnez les fichiers à importer</label>
+            <input id="file" accept=".txt" type="file">  
+            <button onclick="decode()">Import</button>
+        </div>
+
+        <div id="parameter_div">
+            <h2>Paramètres [BETA]</h2>
+            <p>Couleur: <input type="color" id="color"></p>
+            <button id="toggle_text" onclick="toggle_text_f()">Texte en blanc</button>
+            <button id="toggle" onclick="toggle_files()">Cacher les leçons</button>
+        </div>
+            
+        <button id="parameter" onclick="parameter()">Paramètres</button>
+
+        <script src="main.js"></script>
+    </body>
+</html>
