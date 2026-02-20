@@ -1,0 +1,20 @@
+Je tiens à préciser que y'a aucun risque pour l'ordi, la seule interaction avec le système, c'est des téléchargements dans le navigateur de fichiers .txt (qui ne n'exécutent rien, c'est juste du texte que mon programme comprends).
+Donc voilà, rien à craindre.
+
+
+Explications sur le fonctionnement : 
+    - Après avoir lu ça, revient en arrière et clique sur main.html
+    - On peut créer des leçons de dates, de définitions ou d'égalités mathématiques (exemple : "Defs de SVT chapite 5), avec la partie la plus à gauche.
+    - La deuxième sert à ajouter des dates/defs/égalités.
+    - La troisième permet de se faire interoger. Dans le mode "Restitution à l'écrit", il faut avoir exactement la def, sans fautes de frappe (la ponctuation et les majuscules ne comptent pas).
+    - Suprime des defs, ou des leçons entières en appuyant sur les croix. 
+    - Pour l'export (à savoir, sauvegarder des leçons sous forme de fichier dans tes téléchargements), met un titre et clique sur Export. Pour l'import, sélectionne le fichier de ton choix en appuyant sur le bouton au dessus de Import, et clique sur Import. Attention : si tu importes, les leçons que tu avais à l'écran vont disparaitre. Donc si tu y tiens, exporte les avant.
+    - Évite les caractères bizarres et les emojis, ça pourrait tout péter.
+    - Les (), [], {}, "" et ? sont interdits, ça corrompra le fichier si tu le télécharge.
+    
+Voilà, je crois que c'est tout, si ça bug dis moi et je patche. 
+
+
+
+
+(Et fait pas nimp dans l'inspecteur.)
