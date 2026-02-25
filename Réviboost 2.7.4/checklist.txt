@@ -1,3 +1,0 @@
-- Inverser lors des interrogations (à creuser);
--Son
--Mode d'interrogation : relier les réponses
