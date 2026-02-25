@@ -1,4 +1,0 @@
--Mode d'interrogation: vrai ou faux;
--Mode d'interrogation : relier les réponses;
--65 secondes = 1 minute 5;
-- Particules;
