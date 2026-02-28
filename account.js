@@ -206,9 +206,6 @@ async function see_profile() {
 
     let test_token = true;
     for (let i = 0; i < localStorage.length; i++) { 
-        if (localStorage.key(i).startsWith("color")) {
-           continue;
-        }
         if (localStorage.key(i).startsWith("text_color")) {
             continue;
         }
@@ -236,8 +233,9 @@ async function see_profile() {
 
     whole_data = data[0].data;
     const see_div = getID("see_data_div");
-    if (whole_data === null) {
+    if (whole_data === null || whole_data === "") {
         see_div.innerHTML = "<h2>Sessions</h2><p>Il n'y a pas de sessions dans le compte</p>";
+        return;
     } else {
         see_div.innerHTML = "<h2>Sessions</h2>";
         let sessions = whole_data.split("*");
@@ -255,15 +253,14 @@ async function see_profile() {
             session_div.appendChild(delete_session);
 
             session_div.addEventListener("click", () => {getID("import_data_input").value = sessions[i].split("@")[0]; check_import()});
-
             session_div.dataset.session = sessions[i].split("@")[0];
-
+            sessions = sessions.filter(item => item !== "");
             if (sessions[i].split("@")[1].split("#").length < 3) {
                 session_div.innerHTML += "<p>Cette session est vide</p>";
             } else {
                 for (let j = 0; j < sessions[i].split("@")[1].split("#").length; j++) {
                     let lesson_name = sessions[i].split("@")[1].split("#")[j].split("?")[0];
-                    if (lesson_name === "text_color" || lesson_name === "color") {
+                    if (lesson_name === "text_color") {
                         continue;
                     } else {
                         lesson_name = lesson_name.split(";")[0];
@@ -285,8 +282,6 @@ async function see_profile() {
 
                     let ul = document.createElement("ul");
                     lesson_div.appendChild(ul);
-                    console.log(JSON.parse(sessions[i].split("@")[1].split("#")[j].split("?")[1]));
-                    console.log("here");
                     if (JSON.parse(sessions[i].split("@")[1].split("#")[j].split("?")[1]).length === 0) {
                         let p = document.createElement("p");
                         p.innerText = "La leçon est vide";
@@ -480,6 +475,7 @@ async function exporting_data() {
 
     for (let i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i).startsWith("sb-")) continue;
+        if (localStorage.key(i).startsWith("color")) continue;
         if (i != 0) total += "#";
         total += localStorage.key(i) + "?" + localStorage.getItem(localStorage.key(i));
     }
@@ -533,7 +529,7 @@ function check_import() {
     for (let i = 0; i < whole_data.split("*").length; i++) {
         if (!(whole_data.split("*")[i].split("@")[0] === import_data_input.value)) {continue};
         for (let j = 0; j < whole_data.split("*")[i].split("@")[1].split("#").length; j++) {
-            if (!(whole_data.split("*")[i].split("@")[1].split("#")[j].startsWith("color") || whole_data.split("*")[i].split("@")[1].split("#")[j].startsWith("text_color"))) {
+            if (!(whole_data.split("*")[i].split("@")[1].split("#")[j].startsWith("text_color"))) {
                 test = false;
             }
         }
@@ -555,7 +551,7 @@ getID("import_data_button").addEventListener("click", import_data);
 function import_data() {
 
     for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).split(";")[0].startsWith("sb-")) {
+        if (localStorage.key(i).split(";")[0].startsWith("sb-") || localStorage.key(i).split(";")[0].startsWith("color")) {
 
         } else {
             localStorage.removeItem(localStorage.key(i));
