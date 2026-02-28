@@ -10,7 +10,7 @@ Explications sur le fonctionnement :
     - Suprime des defs, ou des leçons entières en appuyant sur les croix. 
     - Pour l'export (à savoir, sauvegarder des leçons sous forme de fichier dans tes téléchargements), met un titre et clique sur Export. Pour l'import, sélectionne le fichier de ton choix en appuyant sur le bouton au dessus de Import, et clique sur Import. Attention : si tu importes, les leçons que tu avais à l'écran vont disparaitre. Donc si tu y tiens, exporte les avant.
     - Évite les caractères bizarres et les emojis, ça pourrait tout péter.
-    - Les (), [], {}, "" et ? sont interdits, ça corrompra le fichier si tu le télécharge.
+    - Les *, @, [], {}, "", ,, ; et ? sont interdits, ça corrompra le fichier si tu le télécharge.
     
 Voilà, je crois que c'est tout, si ça bug dis moi et je patche. 
 
