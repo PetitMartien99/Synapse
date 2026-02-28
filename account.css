@@ -1,0 +1,174 @@
+#sign_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    display: block;
+}
+
+#account_div {
+    display: block;
+}
+
+#signin_div, #signup_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+
+
+button:disabled {
+    display: none;
+}
+
+#see_data_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 10px;
+}
+
+#see_data_div h2 {
+    margin-bottom: 50px;
+}
+
+#see_data_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+    height: fit-content;
+}
+
+.session_div, .lesson_div {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    transition: transform 0.5s ease-in, border 0.5s;
+}
+
+.titles {
+    text-decoration: underline;
+    display: inline;
+}
+
+
+#back_to_homepage {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    font-size: 25px;
+    transition: color 0.5s, transform 0.5s ease-in;
+}
+
+#back_to_homepage:hover {
+    transform: scale(1.03);
+}
+
+
+#connection {
+    display: none;
+}
+
+
+#account_small {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: -15px;
+    right: 0px;
+    transition: transform 0.5s ease-in, border 0.5s;
+    border-top: none;
+    border-right: none;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    border-bottom-left-radius: 10px;
+}
+
+#account_small:hover {
+    transform: scale(1.03);
+}
+
+#mail_address {
+    font-size: 22px;
+}
+
+
+
+#changing_div {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    height: 250px;
+    margin-top: 100px;
+}
+
+#import_data_div, #add_data_div {
+    margin: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+}
+
+#special_h1 {
+    font-size: 30px;
+    width: fit-content;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0); 
+}
+
+.session_div h3 {
+    display: inline;
+}
+
+.session_div h3 button {
+    display: inline;
+}
+
+.delete_session, .delete_lesson {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}
+
+.delete_lesson {
+    font-size: 18px;
+}
+
+li {
+    display: flex;
+    align-items: flex-start;
+    max-width: 950px;
+    text-align: left;
+    flex-direction: row;
+    margin-bottom: 5px;
+    transition: transform 0.5s ease-in-out, color 0.5s;
+}
+
+li:hover {
+    transform: scale(1.03);
+}
+
+.delete_def {
+    font-size: 15px;
+    align-self: flex-start;
+    margin-top: -2px;
+}

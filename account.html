@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Réviboost</title>
+        <link rel="icon" href="Icon.png">
+        <link rel="stylesheet" href="general.css">
+        <link rel="stylesheet" href="account.css">
+        <meta name="robots" content="noindex,nofollow">
+    </head>
+    <body>
+        <div id="inline"><h1>Réviboost</h1></div>
+        <p id="connection"></p>
+
+        <div id="sign_div">
+            <div id="signin_div">
+                <h2>Se connecter</h2>
+                <input id="signin_email" placeholder="Email" type="email">
+                <input id="signin_password" placeholder="Mot de passe" type="password">
+                <p id="signin_message"></p>
+                <button disabled="true" id="signin_button">Se connecter</button>
+            </div>
+            <div id="signup_div">
+                <h2>Créer un compte</h2>
+                <input id="signup_email" placeholder="Email" type="email">
+                <input id="signup_password" placeholder="Mot de passe" type="password">
+                <p id="signup_message"></p>
+                <button disabled="true" id="signup_button">Créer un compte</button>
+            </div>
+        </div>
+
+        <div id="account_div">
+            <div id="account_small">
+                <p id="mail_address"></p>
+                <button id="signout">Se déconnecter</button>
+                <button id="delete_account">Demander la suppression<br> du compte</button>
+            </div>
+
+
+            <h1 id="special_h1">Gérer les sessions du compte</h1>
+            <div id="changing_div">
+                <div id="add_data_div">
+                    <h2 id="add_data_h3">Enregistrer le pack de leçons actuel</h2>
+                    <input id="add_data_input">
+                    <p id="add_data_p"></p>
+                    <button disabled="true" id="add_data_button">Enregistrer</button>
+                </div>
+
+                <div id="import_data_div">
+                    <h2 id="import_data_h3">Ouvrir une session</h2>
+            
+                    <input id="import_data_input">
+                    <p id="danger_import">(Si la session actuelle n'a pas été enregistrée,<br> elle sera supprimée)</p>
+                    <p id="import_data_p"></p>
+                    <button disabled="true" id="import_data_button">Ouvrir </button>
+                </div>
+            </div>
+             
+            <div id="see_data_container">
+                <div id="see_data_div">
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <a id="back_to_homepage" href="index.html">Retour à l'accueil</a>
+
+        <p id="giga_msg"></p>
+
+        <div id="parameter_div">
+            <h2>Paramètres [BETA]</h2>
+            <p>Couleur: <input type="color" id="color"></p>
+            <button id="toggle_text" onclick="toggle_text_f()">Texte en blanc</button>
+            <button id="toggle" onclick="toggle_files()">Cacher les leçons</button>
+            <div id="parameter_sound">
+                <input type="checkbox" id="toggle_sound" onclick="toggle_sound()">
+                <label id="for_toggle_sound" for="toggle_sound">Effets sonores</label>
+            </div>
+        </div>
+        <div id="parameter_cover"></div>
+            
+        <button id="parameter" onclick="parameter()">Paramètres</button>
+
+        <script src="general.js"></script>
+        <script type="module" src="account.js"></script>
+    </body>
+</html>
