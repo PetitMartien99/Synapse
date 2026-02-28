@@ -285,7 +285,8 @@ async function see_profile() {
 
                     let ul = document.createElement("ul");
                     lesson_div.appendChild(ul);
-
+                    console.log(JSON.parse(sessions[i].split("@")[1].split("#")[j].split("?")[1]));
+                    console.log("here");
                     if (JSON.parse(sessions[i].split("@")[1].split("#")[j].split("?")[1]).length === 0) {
                         let p = document.createElement("p");
                         p.innerText = "La leçon est vide";
@@ -554,10 +555,9 @@ getID("import_data_button").addEventListener("click", import_data);
 function import_data() {
 
     for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).split(";")[0] === "color") {
-         } else if (localStorage.key(i).split(";")[0] === "text_color") { 
-         } else if (localStorage.key(i).split(";")[0].startsWith("sb-")) {
-         } else {
+        if (localStorage.key(i).split(";")[0].startsWith("sb-")) {
+
+        } else {
             localStorage.removeItem(localStorage.key(i));
         }
     }
@@ -577,13 +577,9 @@ function import_data() {
         for (let i = 0; i < packs_hash.length; i++) { 
             let lesson_hash = packs_hash[i].split("?");
             let title_pack = lesson_hash[0];
-
-            if (title_pack === "color") {
-                let safe = "#" + lesson_hash[1];
-                localStorage.setItem(title_pack, safe);
-            } else {
-                localStorage.setItem(title_pack, lesson_hash[1]);
-            }
+            console.log(title_pack);
+            localStorage.setItem(title_pack, lesson_hash[1]);
+            
         } 
     console.log("Here");
     import_data_input.value = "";
