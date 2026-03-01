@@ -246,16 +246,11 @@ async function see_profile() {
             session_div.innerHTML = "<h3>" + sessions[i].split("@")[0] + "</h3>";
             see_div.appendChild(session_div);
 
-            let delete_session = document.createElement("button");
-            delete_session.innerText =  "X";
-            delete_session.style.color = localStorage.getItem("text_color");
-            delete_session.className = "delete_session";
-            session_div.appendChild(delete_session);
 
             session_div.addEventListener("click", () => {getID("import_data_input").value = sessions[i].split("@")[0]; check_import()});
             session_div.dataset.session = sessions[i].split("@")[0];
             sessions = sessions.filter(item => item !== "");
-            if (sessions[i].split("@")[1].split("#").length < 3) {
+            if (sessions[i].split("@")[1].split("#").length < 2) {
                 session_div.innerHTML += "<p>Cette session est vide</p>";
             } else {
                 for (let j = 0; j < sessions[i].split("@")[1].split("#").length; j++) {
@@ -316,10 +311,17 @@ async function see_profile() {
                     delete_lesson.addEventListener("click", () => {delete_object("lesson", lesson_div)});
                 }
 
-                delete_session.addEventListener("click", () => {delete_object("session", session_div)});
+                
             }
-            
-            if (sessions[i].split("@")[1].split("#").length < 3) {
+            let delete_session = document.createElement("button");
+            delete_session.innerText =  "X";
+            delete_session.style.color = localStorage.getItem("text_color");
+            delete_session.className = "delete_session";
+            session_div.appendChild(delete_session);
+            delete_session.addEventListener("click", (e) => {
+                e.stopPropagation();
+                delete_object("session", session_div)});
+            if (sessions[i].split("@")[1].split("#").length < 2) {
                 continue;
             } else {
                 let unsee = document.createElement("button");
@@ -343,7 +345,7 @@ async function see_profile() {
                     }
                 });
                 const name = sessions[i].split("@")[0];
-
+                console.log("Here");
                 if (opened_sessions.has(name)) {
                     to_hide.forEach(e => e.style.display = "block");
                     unsee.innerText = "v";
@@ -360,10 +362,13 @@ async function see_profile() {
 
 
 async function delete_object(object_class, object) {
+    console.log("Test");
     let sessions = whole_data.split("*").filter(Boolean);
 
     if (object_class === "session") {
+        console.log(sessions);
         sessions = sessions.filter(s => !s.startsWith(object.dataset.session + "@"));
+        console.log(sessions);
     } else {
         for (let i = 0; i < sessions.length; i++) {
             if (!sessions[i].startsWith(object.dataset.session + "@")) continue;
@@ -458,7 +463,7 @@ async function exporting_data() {
 
     let existingData = data[0].data;
 
-    if (existingData === null) {
+    if (existingData === null || existingData === "") {
         existingData = "";
         total += name_input.value + "@";
     } else {
