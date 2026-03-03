@@ -1,4 +1,3 @@
-- MOST : CONDENSER LES LEÇONS PAR DÉFAUT
 - MOST : FAIRE UN GUIDE
 - MOST : RESET LE MOT DE PASSE
 - Supprimer le compte (table de requests)

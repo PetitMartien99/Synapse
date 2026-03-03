@@ -40,6 +40,8 @@ let questions_number;
 let right_answers;
 let time_stat; 
 
+let opened_sessions = new Set();
+
 const fail = new Audio("Échec.mp3");
 const victory = new Audio("Victoire.mp3");
 const correct = new Audio("Correct.mp3");
@@ -99,6 +101,9 @@ function actu_files() {
     document.querySelector("h2").innerText = "Leçons";
     toggle_files_button.style.display = "block";
 
+
+    let good_name;
+
     for (let i = 0; i < localStorage.length; i++) {
 
         let name = localStorage.key(i).split(";")[0];
@@ -112,6 +117,7 @@ function actu_files() {
             continue;
         }
 
+        let good_name = name;
         let type = localStorage.key(i).split(";")[1];
         let pack = localStorage.key(i);
         let div = document.createElement("div");
@@ -179,6 +185,39 @@ function actu_files() {
                 new_li.appendChild(delete_def);
             }
         }
+
+        if (!(JSON.parse(localStorage.getItem(pack)).length === 0)) {
+            let unsee = document.createElement("button");
+            unsee.innerText = ">";
+            unsee.style.color = localStorage.getItem("text_color");
+            unsee.className = "unsee";
+            let to_hide = div.querySelectorAll("li");
+            unsee.addEventListener("click", () => {
+            if (to_hide[0] === undefined) {
+                return;
+            }
+            if (to_hide[0].style.display === "none") {
+                to_hide.forEach((e) => {e.style.display = "flex"});
+                unsee.innerText = "v";
+                opened_sessions.add(good_name);
+            } else {
+                to_hide.forEach((e) => {e.style.display = "none"});
+                unsee.innerText = ">";
+                opened_sessions.delete(good_name);
+            }
+            });
+            
+            console.log("Here");
+            if (opened_sessions.has(good_name)) {
+                to_hide.forEach(e => e.style.display = "flex");
+                unsee.innerText = "v";
+            } else {
+                to_hide.forEach(e => e.style.display = "none");
+                unsee.innerText = ">";
+            }
+            div.querySelector("span").appendChild(unsee);
+        }
+
     }
     updateTypeUI_add();
     all_class_files = document.querySelectorAll(".file");

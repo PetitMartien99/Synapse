@@ -97,6 +97,7 @@ option {
     bottom: 0;
     right: 0;
     z-index: 114;
+    font-size: 22px;
 }
 
 #parameter_div {
