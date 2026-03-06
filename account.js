@@ -11,106 +11,101 @@ const signin_message = getID("signin_message");
 const signup_message = getID("signup_message");
 
 let user_let;
-
 let opened_sessions = new Set();
+let whole_data = null; 
 
-let whole_data = null;
 async function update() {
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
-      user_let = user;
-      document.querySelector("#connection").innerText = "connected";
-      getID("sign_div").style.display = "none";
-      getID("account_div").style.display = "block";
-      see_profile();
-      const { data, error } = await supabase
-        .from('sessions')
-        .select('data').eq('uid', user_let.id);
-        if (error) {
-            console.log(error.code);
-        }
-        if (data[0] === undefined) {
-            const { data, error } = await supabase
-            .from('sessions')
-            .insert([
-            {
-                uid: user_let.id,
-                data: "",   
-            }
-            ]);
+        user_let = user;
+        document.querySelector("#connection").innerText = "connected";
+        getID("sign_div").style.display = "none";
+        getID("account_div").style.display = "block";
 
-            if (error) {
-                console.error("Erreur :", error);
-            } else {
-                console.log("Ligne insérée :", data);
-            }
+        const { data, error } = await supabase
+            .from('sessions')
+            .select('json_data') 
+            .eq('uid', user_let.id);
+
+        if (error) console.log(error.code);
+
+        if (!data[0]) {
+            const { data: inserted, error: errInsert } = await supabase
+                .from('sessions')
+                .insert([{ uid: user_let.id, json_data: [] }]);
+            if (errInsert) console.error("Erreur :", errInsert);
+            else console.log("Ligne insérée :", inserted);
         }
+
+        see_profile();
     } else {
-      document.querySelector("#connection").innerText = "not connected";
-      getID("sign_div").style.display = "block";
-      getID("account_div").style.display = "none";
+        document.querySelector("#connection").innerText = "not connected";
+        getID("sign_div").style.display = "block";
+        getID("account_div").style.display = "none";
     }
 }
 
 update();
 
-function getID(id) {
-    return document.getElementById(id);
-}
+function getID(id) { return document.getElementById(id); }
 
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-
 getID("signin_email").addEventListener("input", check_signin);
 getID("signin_password").addEventListener("input", check_signin);
 getID("signin_button").disabled = true;
+
 function check_signin() {
     let mail_input = getID("signin_email");
     let password_input = getID("signin_password");
+
     if (mail_input.value === "" || password_input.value === "") {
         signin_message.innerHTML = "Remplissez tous les champs";
         getID("signin_button").disabled = true;
         return;
-    } 
+    }
+
     if (!validateEmail(mail_input.value)) {
-        signin_message.innerHTML = "Email invalide"
+        signin_message.innerHTML = "Email invalide";
         getID("signin_button").disabled = true;
         return;
     }
+
     if (mail_input.value.length > 30) {
         signin_message.innerHTML = "Email trop long <br>(maximum 30 caractères)";
         getID("signin_button").disabled = true;
         return;
     }
+
     if (password_input.value.length > 30) {
         signin_message.innerHTML = "Mot de passe trop long <br>(maximum 30 caractères)";
         getID("signin_button").disabled = true;
         return;
     }
+
     if (password_input.value.length < 7) {
         signin_message.innerHTML = "Mot de passe trop court <br>(minimum 7 caractères)";
         getID("signin_button").disabled = true;
         return;
     }
+
     signin_message.innerHTML = "";
     getID("signin_button").disabled = false;
 }
 
 getID("signin_button").addEventListener("click", sign_in);
+
 async function sign_in() {
     let mail_input = getID("signin_email");
     let password_input = getID("signin_password");
 
     const { data, error } = await supabase.auth.signInWithPassword({
-
         email: mail_input.value,
-    
         password: password_input.value,
-    
-    })
+    });
 
     update();
 
@@ -124,55 +119,58 @@ async function sign_in() {
     }
 }
 
-
 getID("signup_email").addEventListener("input", check_signup);
 getID("signup_password").addEventListener("input", check_signup);
 getID("signup_button").disabled = true;
+
 function check_signup() {
     let mail_input = getID("signup_email");
     let password_input = getID("signup_password");
+
     if (mail_input.value === "" || password_input.value === "") {
         signup_message.innerHTML = "Remplissez tous les champs";
         getID("signup_button").disabled = true;
         return;
-    } 
+    }
+
     if (!validateEmail(mail_input.value)) {
-        signup_message.innerHTML = "Email invalide"
+        signup_message.innerHTML = "Email invalide";
         getID("signup_button").disabled = true;
         return;
     }
+
     if (mail_input.value.length > 30) {
         signup_message.innerHTML = "Email trop long <br>(maximum 30 caractères)";
         getID("signup_button").disabled = true;
         return;
     }
+
     if (password_input.value.length > 30) {
         signup_message.innerHTML = "Mot de passe trop long <br>(maximum 30 caractères)";
         getID("signup_button").disabled = true;
         return;
     }
+
     if (password_input.value.length < 7) {
         signup_message.innerHTML = "Mot de passe trop court <br>(minimum 7 caractères)";
         getID("signup_button").disabled = true;
         return;
     }
+
     signup_message.innerHTML = "";
     getID("signup_button").disabled = false;
 }
 
 getID("signup_button").addEventListener("click", sign_up);
+
 async function sign_up() {
     let mail_input = getID("signup_email");
     let password_input = getID("signup_password");
-  
+
     const { data, error } = await supabase.auth.signUp({
-    
         email: mail_input.value,
-    
         password: password_input.value,
-    
     });
-    
 
     update();
 
@@ -187,7 +185,13 @@ async function sign_up() {
         mail_input.value = "";
         password_input.value = "";
     }
+
 }
+
+
+getID("delete_account").addEventListener("click", () => {
+    alert("Pour supprimer votre compte, contactez le créateur du site (Alban).");
+})
 
 
 document.getElementById("signout").addEventListener("click", signOut);
@@ -199,306 +203,132 @@ async function signOut() {
 
 async function see_profile() {
     const mail_address = getID("mail_address");
-    
-
     mail_address.innerHTML = "<span class='titles'>Email:</span> " + user_let.email;
-
-
-    let test_token = true;
-    for (let i = 0; i < localStorage.length; i++) { 
-        if (localStorage.key(i).startsWith("text_color")) {
-            continue;
-        }
-        if (localStorage.key(i).startsWith("sb-")) {;
-            continue;
-        }
-        test_token = false;
-    }
-    if (test_token) {
-        getID("add_data_input").style.display = "none";
-        getID("add_data_p").innerHTML = "Il n'y a aucun pack <br>actuellement chargé.";
-        getID("add_data_button").style.display = "none";
-    }
-
 
     const { data, error } = await supabase
         .from('sessions')
-        .select('data')
+        .select('json_data')
         .eq('uid', user_let.id);
 
-    if (error) {
-        console.log(error.code);
+    if (error) return console.log(error.code);
+
+    whole_data = data[0].json_data || []; 
+    const see_div = getID("see_data_div");
+    see_div.innerHTML = "<h2>Sessions</h2>";
+
+    if (!whole_data.length) {
+        see_div.innerHTML += "<p>Il n'y a pas de sessions dans le compte</p>";
+        return;
     }
 
+    for (let i = 0; i < whole_data.length; i++) {
+        const session = whole_data[i];
+        let session_div = document.createElement("div");
+        session_div.className = "session_div";
+        session_div.style.border = "solid 1px " + localStorage.getItem("text_color");
+        session_div.innerHTML = "<h3>" + session.name + "</h3>";
+        see_div.appendChild(session_div);
+        session_div.dataset.session = session.name;
 
-    whole_data = data[0].data;
-    const see_div = getID("see_data_div");
-    if (whole_data === null || whole_data === "") {
-        see_div.innerHTML = "<h2>Sessions</h2><p>Il n'y a pas de sessions dans le compte</p>";
-        return;
-    } else {
-        see_div.innerHTML = "<h2>Sessions</h2>";
-        let sessions = whole_data.split("*");
-        for (let i = 0; i < sessions.length; i++) {
-            let session_div = document.createElement("div");
-            session_div.className = "session_div";
-            session_div.style.border = "solid 1px " + localStorage.getItem("text_color");
-            session_div.innerHTML = "<h3>" + sessions[i].split("@")[0] + "</h3>";
-            see_div.appendChild(session_div);
+        session_div.addEventListener("click", () => {
+            getID("import_data_input").value = session.name;
+            check_import();
+        });
 
+        if (!session.lessons || !session.lessons.length) {
+            session_div.innerHTML += "<p>Cette session est vide</p>";
+            continue;
+        }
 
-            session_div.addEventListener("click", () => {getID("import_data_input").value = sessions[i].split("@")[0]; check_import()});
-            session_div.dataset.session = sessions[i].split("@")[0];
-            sessions = sessions.filter(item => item !== "");
-            if (sessions[i].split("@")[1].split("#").length < 2) {
-                session_div.innerHTML += "<p>Cette session est vide</p>";
-            } else {
-                for (let j = 0; j < sessions[i].split("@")[1].split("#").length; j++) {
-                    let lesson_name = sessions[i].split("@")[1].split("#")[j].split("?")[0];
-                    if (lesson_name === "text_color") {
-                        continue;
-                    } else {
-                        lesson_name = lesson_name.split(";")[0];
-                    }
-                    let lesson_div = document.createElement("div");
-                    lesson_div.className = "lesson_div";
-                    lesson_div.style.border = "solid 1px " + localStorage.getItem("text_color");
-                    lesson_div.innerHTML = "<h4>" + lesson_name + "</h4>";
-                    session_div.appendChild(lesson_div);  
+        for (let j = 0; j < session.lessons.length; j++) {
+            const lesson = session.lessons[j];
+            if (lesson.name === "text_color") continue;
+            let lesson_div = document.createElement("div");
+            lesson_div.className = "lesson_div";
+            lesson_div.style.border = "solid 1px " + localStorage.getItem("text_color");
+            lesson_div.innerHTML = "<h4>" + lesson.name + "</h4>";
+            session_div.appendChild(lesson_div);
+            lesson_div.dataset.session = session.name;
+            lesson_div.dataset.lesson = lesson.name;
 
-                    lesson_div.dataset.session = sessions[i].split("@")[0];
-                    lesson_div.dataset.lesson = lesson_name;
+            let delete_lesson = document.createElement("button");
+            delete_lesson.innerText = "X";
+            delete_lesson.style.color = localStorage.getItem("text_color");
+            delete_lesson.className = "delete_lesson";
+            lesson_div.appendChild(delete_lesson);
 
-                    let delete_lesson = document.createElement("button");
-                    delete_lesson.innerText =  "X";
-                    delete_lesson.style.color = localStorage.getItem("text_color");
-                    delete_lesson.className = "delete_lesson";
-                    lesson_div.appendChild(delete_lesson);
+            let ul = document.createElement("ul");
+            lesson_div.appendChild(ul);
 
-                    let ul = document.createElement("ul");
-                    lesson_div.appendChild(ul);
-                    if (JSON.parse(sessions[i].split("@")[1].split("#")[j].split("?")[1]).length === 0) {
-                        let p = document.createElement("p");
-                        p.innerText = "La leçon est vide";
-                        lesson_div.appendChild(p);
-                    } else {       
-                        for (let k = 0; k < JSON.parse(sessions[i].split("@")[1].split("#")[j].split("?")[1]).length; k++) {   
-                            let thing = JSON.parse(sessions[i].split("@")[1].split("#")[j].split("?")[1])[k];    
-                            let title = thing.title;
-                            let def = thing.def;
-                            let new_li = document.createElement("li");
-                            if (sessions[i].split("@")[1].split("#")[j].split("?")[0].split(";")[1] === "egal") {
-                                new_li.innerHTML = title + " = " + def;
-                            } else {
-                                new_li.innerHTML = "<div class='titles'>" + title + "</div> : " + def;
-                            }
-
-                            new_li.dataset.session = sessions[i].split("@")[0];
-                            new_li.dataset.lesson = lesson_name;
-                            new_li.dataset.title = title;
-                            new_li.dataset.def = def;
-
-                            let delete_def = document.createElement("button");
-                            delete_def.innerText =  "X";
-                            delete_def.style.color = localStorage.getItem("text_color");
-                            delete_def.className = "delete_def";
-                            delete_def.addEventListener("click", () => {delete_object("def", new_li)});
-                            new_li.appendChild(delete_def);
-
-                            ul.appendChild(new_li);
-                        }
-                    }
-                    delete_lesson.addEventListener("click", () => {delete_object("lesson", lesson_div)});
-                }
-
-                
-            }
-            let delete_session = document.createElement("button");
-            delete_session.innerText =  "X";
-            delete_session.style.color = localStorage.getItem("text_color");
-            delete_session.className = "delete_session";
-            session_div.appendChild(delete_session);
-            delete_session.addEventListener("click", (e) => {
-                e.stopPropagation();
-                delete_object("session", session_div)});
-            if (sessions[i].split("@")[1].split("#").length < 2) {
+            if (!lesson.items || !lesson.items.length) {
+                let p = document.createElement("p");
+                p.innerText = "La leçon est vide";
+                lesson_div.appendChild(p);
                 continue;
-            } else {
-                let unsee = document.createElement("button");
-                unsee.innerText = ">";
-                unsee.style.color = localStorage.getItem("text_color");
-                unsee.className = "unsee";
-                let to_hide = session_div.querySelectorAll(".lesson_div");
-                unsee.addEventListener("click", () => {
-                    if (to_hide[0] === undefined) {
-                        return;
-                    }
-                    const name = sessions[i].split("@")[0];
-                    if (to_hide[0].style.display === "none") {
-                        to_hide.forEach((e) => {e.style.display = "block"});
-                        unsee.innerText = "v";
-                        opened_sessions.add(name);
-                    } else {
-                        to_hide.forEach((e) => {e.style.display = "none"});
-                        unsee.innerText = ">";
-                        opened_sessions.delete(name);
-                    }
-                });
-                const name = sessions[i].split("@")[0];
-                console.log("Here");
-                if (opened_sessions.has(name)) {
+            }
+
+            let items = lesson.items;
+           
+
+            for (let k = 0; k < items.length; k++) {
+                const item = items[k];
+                let new_li = document.createElement("li");
+                if (item.kind === "egal") new_li.innerHTML = item.title + " = " + item.def;
+                else new_li.innerHTML = "<div class='titles'>" + item.title + "</div> : " + item.def;
+
+                new_li.dataset.session = session.name;
+                new_li.dataset.lesson = lesson.name;
+                new_li.dataset.title = item.title;
+                new_li.dataset.content = item.def;
+                new_li.dataset.kind = item.kind;
+
+                let delete_def = document.createElement("button");
+                delete_def.innerText = "X";
+                delete_def.style.color = localStorage.getItem("text_color");
+                delete_def.className = "delete_def";
+                delete_def.addEventListener("click", () => delete_object("def", new_li));
+                new_li.appendChild(delete_def);
+
+                ul.appendChild(new_li);
+            }
+
+            delete_lesson.addEventListener("click", () => delete_object("lesson", lesson_div));
+        }
+
+        let delete_session = document.createElement("button");
+        delete_session.innerText = "X";
+        delete_session.style.color = localStorage.getItem("text_color");
+        delete_session.className = "delete_session";
+        session_div.appendChild(delete_session);
+        delete_session.addEventListener("click", e => { e.stopPropagation(); delete_object("session", session_div); });
+
+        if (session.lessons.length >= 1) {
+            let unsee = document.createElement("button");
+            unsee.innerText = ">";
+            unsee.style.color = localStorage.getItem("text_color");
+            unsee.className = "unsee";
+            let to_hide = session_div.querySelectorAll(".lesson_div");
+            unsee.addEventListener("click", () => {
+                const name = session.name;
+                if (to_hide[0].style.display === "none") {
                     to_hide.forEach(e => e.style.display = "block");
                     unsee.innerText = "v";
+                    opened_sessions.add(name);
                 } else {
                     to_hide.forEach(e => e.style.display = "none");
                     unsee.innerText = ">";
+                    opened_sessions.delete(name);
                 }
-                session_div.querySelector("h3").appendChild(unsee);
+            });
+            if (opened_sessions.has(session.name)) {
+                to_hide.forEach(e => e.style.display = "block");
+                unsee.innerText = "v";
+            } else {
+                to_hide.forEach(e => e.style.display = "none");
+                unsee.innerText = ">";
             }
-            
+            session_div.querySelector("h3").appendChild(unsee);
         }
-    }
-}
-
-
-async function delete_object(object_class, object) {
-    console.log("Test");
-    let sessions = whole_data.split("*").filter(Boolean);
-
-    if (object_class === "session") {
-        console.log(sessions);
-        sessions = sessions.filter(s => !s.startsWith(object.dataset.session + "@"));
-        console.log(sessions);
-    } else {
-        for (let i = 0; i < sessions.length; i++) {
-            if (!sessions[i].startsWith(object.dataset.session + "@")) continue;
-
-            let [sessionName, rest] = sessions[i].split("@");
-            let lessons = rest.split("#");
-
-            if (object_class === "lesson") {
-                lessons = lessons.filter(l => {
-                    let lessonName = l.split("?")[0].split(";")[0];
-                    return lessonName !== object.dataset.lesson;
-                });
-            } else if (object_class === "def") {
-                for (let j = 0; j < lessons.length; j++) {
-                    let [lessonRaw, json] = lessons[j].split("?");
-                    let lessonName = lessonRaw.split(";")[0];
-                    if (lessonName !== object.dataset.lesson) continue;
-
-                    let defs = JSON.parse(json || "[]");
-                    defs = defs.filter(d => !(d.title === object.dataset.title && d.def === object.dataset.def));
-                    lessons[j] = lessonRaw + "?" + JSON.stringify(defs);
-                }
-            }
-
-            sessions[i] = sessionName + "@" + lessons.join("#");
-        }
-    }
-
-    whole_data = sessions.join("*");
-
-    const { error } = await supabase
-        .from('sessions')
-        .update({ data: whole_data })
-        .eq('uid', user_let.id);
-
-    if (!error) see_profile();
-}
-
-
-
-
-getID("delete_account").addEventListener("click", delete_account);
-function delete_account() {
-    alert("Pour supprimer votre compte, contactez le créateur du site (Alban)");
-}
-
-getID("add_data_button").disabled = true;
-const name_input = getID("add_data_input");
-name_input.addEventListener("input", () => {
-    const message = getID("add_data_p");
-    const button = getID("add_data_button");
-    const regex = /[*@\[\]{}"',;?]/;
-    if (name_input.value.length < 3) {
-        message.style.display = "block";
-        message.innerHTML = "Le nom est trop court<br>(minimum 3 caractères)";
-        button.disabled = true;
-        return;
-    }
-    if (name_input.value.length > 30) {
-        message.style.display = "block";
-        message.innerHTML = "Le nom est trop long<br>(maximum 30 caractères)";
-        button.disabled = true;
-        return;
-    }
-    if (regex.test(name_input.value) === true) {
-        message.style.display = "block";
-        message.innerHTML = "Le nom contient des <br>caractères spéciaux";
-        button.disabled = true;
-        return;
-    }
-    message.innerHTML = "";
-    message.style.display = "none";
-    button.disabled = false;
-});
-
-getID("add_data_button").addEventListener("click", exporting_data);
-async function exporting_data() {
-    if (name_input.value === "") {
-        return;
-    }
-    let total = "";
-    
-    const { data, error } = await supabase
-        .from('sessions')
-        .select('data')
-        .eq('uid', user_let.id);
-
-    if (error) {
-        console.log(error.code);
-        return;
-    }
-
-    let existingData = data[0].data;
-
-    if (existingData === null || existingData === "") {
-        existingData = "";
-        total += name_input.value + "@";
-    } else {
-        let all = existingData.split("*");
-        const duplicate = all.some(e => e.split("@")[0] === name_input.value);
-
-        if (duplicate) {
-            getID("add_data_p").innerHTML = "Il y a déjà une session <br>du même nom";
-            return; 
-        }
-
-        total += "*" + name_input.value + "@";
-    }
-
-    for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).startsWith("sb-")) continue;
-        if (localStorage.key(i).startsWith("color")) continue;
-        if (i != 0) total += "#";
-        total += localStorage.key(i) + "?" + localStorage.getItem(localStorage.key(i));
-    }
-
-    let total_total = existingData + total;
-
-    const { data: data_see, error: error_see } = await supabase
-        .from('sessions')
-        .update({ data: total_total })
-        .eq('uid', user_let.id);
-
-    if (error_see) {
-        console.log(error_see.code);
-    } else {
-        getID("add_data_p").innerHTML = "Session enregistrée";
-        name_input.value = "";
-        whole_data = total_total;
-        see_profile();
     }
 }
 
@@ -507,39 +337,40 @@ const import_data_input = getID("import_data_input");
 import_data_input.addEventListener("input", check_import);
 
 function check_import() {
-    const button = getID("import_data_button");
 
+    const button = getID("import_data_button");
     const message = getID("import_data_p");
-    if (whole_data === null || whole_data === "") {
+
+    if (!whole_data || whole_data.length === 0) {
         message.style.display = "block";
         message.innerText = "Il n'y a pas de session à importer";
         button.disabled = true;
         return;
     }
-    
-    const sessions_name = [];
-    for (let i = 0; i < whole_data.split("*").length; i++) {
-        sessions_name.push(whole_data.split("*")[i].split("@")[0]);
-    }
 
-    if (!(sessions_name.includes(import_data_input.value))) {
+    const session = whole_data.find(s => s.name === import_data_input.value);
+
+    if (!session) {
         message.style.display = "block";
         message.innerText = "Il n'y a aucune session de ce nom";
         button.disabled = true;
         return;
     }
 
+    let empty = true;
 
-    let test = true;
-    for (let i = 0; i < whole_data.split("*").length; i++) {
-        if (!(whole_data.split("*")[i].split("@")[0] === import_data_input.value)) {continue};
-        for (let j = 0; j < whole_data.split("*")[i].split("@")[1].split("#").length; j++) {
-            if (!(whole_data.split("*")[i].split("@")[1].split("#")[j].startsWith("text_color"))) {
-                test = false;
-            }
+    for (let lesson of session.lessons) {
+
+        if (lesson.name === "text_color") continue;
+
+        if (lesson.items && lesson.items.length > 0) {
+            empty = false;
+            break;
         }
+
     }
-    if (test) {
+
+    if (empty) {
         message.style.display = "block";
         message.innerHTML = "Cette session est vide";
         button.disabled = true;
@@ -551,41 +382,135 @@ function check_import() {
     button.disabled = false;
 }
 
+
 getID("import_data_button").addEventListener("click", import_data);
 
 function import_data() {
-
     for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).split(";")[0].startsWith("sb-") || localStorage.key(i).split(";")[0].startsWith("color")) {
-
-        } else {
-            localStorage.removeItem(localStorage.key(i));
-        }
+        const key = localStorage.key(i);
+        if (key.startsWith("sb-") || key.startsWith("color")) continue;
+        localStorage.removeItem(key);
+        i--;
     }
 
     const session_name = import_data_input.value;
+    const session = whole_data.find(s => s.name === session_name);
 
-    let total;
-
-    for (let i = 0; i < whole_data.split("*").length; i++) {
-        if (!whole_data.split("*")[i].split("@")[0] === session_name) {continue};
-
-        total = whole_data.split("*")[i].split("@")[1];
+    for (let lesson of session.lessons) {
+        if (typeof lesson.items !== "string") {
+            localStorage.setItem(lesson.name, JSON.stringify(lesson.items));
+        } else {
+            localStorage.setItem(lesson.name, lesson.items);
+        }
     }
 
-
-    let packs_hash = total.split("#"); 
-        for (let i = 0; i < packs_hash.length; i++) { 
-            let lesson_hash = packs_hash[i].split("?");
-            let title_pack = lesson_hash[0];
-            console.log(title_pack);
-            localStorage.setItem(title_pack, lesson_hash[1]);
-            
-        } 
-    console.log("Here");
     import_data_input.value = "";
     setTimeout(() => {
         getID("import_data_p").innerHTML = "Session importée";
         getID("import_data_p").style.display = "block";
-    }, 50);   
+        getID("import_data_button").disabled = true;
+    }, 50);
+}
+
+
+async function delete_object(type, element) {
+    let newData = whole_data;
+
+    if (type === "session") {
+        newData = newData.filter(s => s.name !== element.dataset.session);
+    } else {
+        for (let session of newData) {
+            if (session.name !== element.dataset.session) continue;
+
+            if (type === "lesson") {
+                session.lessons = session.lessons.filter(l => l.name !== element.dataset.lesson);
+            } else if (type === "def") {
+                for (let lesson of session.lessons) {
+                    if (lesson.name !== element.dataset.lesson) continue;
+                    console.log(lesson.items);
+                    lesson.items = lesson.items.filter(
+                        item =>
+                            !(item.title === element.dataset.title)
+                    );
+                    console.log(element.dataset.title);
+                }
+            }
+        }
+    }
+
+    whole_data = newData;
+
+    const { error } = await supabase
+        .from("sessions")
+        .update({ json_data: whole_data })
+        .eq("uid", user_let.id);
+
+    if (!error) see_profile();
+}
+
+
+getID("add_data_button").disabled = true;
+const name_input = getID("add_data_input");
+name_input.addEventListener("input", () => {
+    const message = getID("add_data_p");
+    const button = getID("add_data_button");
+    const regex = /[*@[\]{};?]/; 
+    if (name_input.value.length < 3) { message.innerHTML = "Le nom est trop court"; button.disabled = true; return; }
+    if (name_input.value.length > 30) { message.innerHTML = "Le nom est trop long"; button.disabled = true; return; }
+    if (regex.test(name_input.value)) { message.innerHTML = "Nom contient caractères spéciaux"; button.disabled = true; return; }
+    message.innerHTML = "";
+    button.disabled = false;
+});
+
+getID("add_data_button").addEventListener("click", exporting_data);
+async function exporting_data() {
+    if (!name_input.value) return;
+
+    const { data, error } = await supabase
+        .from("sessions")
+        .select('json_data')
+        .eq('uid', user_let.id);
+
+    if (error) return console.log(error.code);
+
+    let existingData = data[0].json_data || [];
+
+    if (existingData.find(s => s.name === name_input.value)) {
+        getID("add_data_p").innerHTML = "Il y a déjà une session du même nom";
+        return;
+    }
+
+    let newSession = { name: name_input.value, lessons: [] };
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("sb-") || key === "color") continue;
+    
+        let items = localStorage.getItem(key);
+    
+        // Si c'est une string JSON, on la parse pour avoir un tableau JS
+        try {
+            items = JSON.parse(items);
+        } catch (e) {
+            console.log(e);
+        }
+    
+        newSession.lessons.push({
+            name: key.split(";")[0],
+            items: items
+        });
+    }
+
+    existingData.push(newSession);
+    whole_data = existingData;
+
+    const { error: err } = await supabase
+        .from("sessions")
+        .update({ json_data: existingData })
+        .eq('uid', user_let.id);
+
+    if (!err) {
+        getID("add_data_p").innerHTML = "Session enregistrée";
+        name_input.value = "";
+        see_profile();
+    }
 }

@@ -8,18 +8,13 @@
         <meta name="robots" content="noindex,nofollow">
     </head>
     <body> 
-        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.1.1 BÊTA</h3></div>
+        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.3.2</h3></div>
         <div id="ultra_container">
             <p></p>
             <div id="container"> 
                 <div id="create">
                     <p class="title_bigger">Créer une leçon :</p>
                     <input id="pack_title" type="text" placeholder="Nom de la leçon">
-                    <select id="pack_type">
-                        <option value="defs">Définitions</option>
-                        <option value="dates">Dates</option>
-                        <option value="egal">Égalités</option>
-                    </select>
                     <button onclick="createPack()">Créer la leçon</button>
                 </div>
 
@@ -30,6 +25,11 @@
                     <input id="pack_title_add" type="text" placeholder="Nom de la leçon">
                     <input id="def_title" type="text" placeholder="Nom de la définition">
                     <textarea id="def" cols="20" rows="5" placeholder="Définition"></textarea>
+                    <select id="def_type">
+                        <option value="defs">Définition</option>
+                        <option value="dates">Date</option>
+                        <option value="egal">Égalité</option>
+                    </select>
                     <button onclick="addPack()">Ajouter à la leçon</button>
                 </div>
 

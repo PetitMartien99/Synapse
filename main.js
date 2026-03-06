@@ -16,6 +16,7 @@ const pack_title_add = document.getElementById("pack_title_add");
 const add_p = document.getElementById("add_p");
 const pack_title = document.getElementById("pack_title");
 const def_title = document.getElementById("def_title");
+const def_type = document.getElementById("def_type");
 const def = document.getElementById("def");
 const body = document.querySelector("body");
 const contain_files = document.getElementById("contain_files");
@@ -25,13 +26,10 @@ asking.value = "";
 const msg = document.getElementById("msg");
 const writer = document.getElementById("writer");
 const toggle_files_button = document.getElementById("toggle");
-/*const ask_div = document.getElementById("ask_div");*/
 const pack_type = document.getElementById("pack_type");
-/*const ultra_container = document.getElementById("ultra_container");*/
 let pre_shown;
 let shown = true;
 let asked = [];
-let about_ask_type;
 let questions_type_select = document.getElementById("questions_type_select");
 let questions_type;
 let about_ask;
@@ -49,24 +47,24 @@ const correct = new Audio("Correct.mp3");
 
 
 function updateTypeUI_add() {
-    if (localStorage.getItem(getPack(pack_title_add.value))) {
-        if (getPack(pack_title_add.value).split(";")[1] === "defs") {
-            add_p.innerText = "Ajouter une définition";
-            def_title.placeholder = "Nom de la définition";
-            def.placeholder = "Définition";
-        } else if (getPack(pack_title_add.value).split(";")[1] === "dates") {
-            add_p.innerText = "Ajouter une date";
-            def_title.placeholder = "Date";
-            def.placeholder = "Ce qu'il s'y est passé";
-        } else {
-            add_p.innerText = "Ajouter une égalité";
-            def_title.placeholder = "Premier membre";
-            def.placeholder = "Deuxième membre";
-        }
+    if (def_type.value === "defs") {
+        add_p.innerText = "Ajouter une définition";
+        def_title.placeholder = "Nom de la définition";
+        def.placeholder = "Définition";
+    } else if (def_type.value === "dates") {
+        add_p.innerText = "Ajouter une date";
+        def_title.placeholder = "Date";
+        def.placeholder = "Ce qu'il s'y est passé";
+    } else {
+        add_p.innerText = "Ajouter une égalité";
+        def_title.placeholder = "Premier membre";
+        def.placeholder = "Deuxième membre";
     }
+    
 }
 
-pack_title_add.addEventListener("input", updateTypeUI_add);
+updateTypeUI_add();
+def_type.addEventListener("input", updateTypeUI_add);
 
 
 function actu_files() {
@@ -102,8 +100,6 @@ function actu_files() {
     toggle_files_button.style.display = "block";
 
 
-    let good_name;
-
     for (let i = 0; i < localStorage.length; i++) {
 
         let name = localStorage.key(i).split(";")[0];
@@ -118,7 +114,6 @@ function actu_files() {
         }
 
         let good_name = name;
-        let type = localStorage.key(i).split(";")[1];
         let pack = localStorage.key(i);
         let div = document.createElement("div");
         div.className = "file";
@@ -162,7 +157,9 @@ function actu_files() {
             for (let i = 0; i < JSON.parse(localStorage.getItem(pack)).length; i++) {
                 let title = JSON.parse(localStorage.getItem(pack))[i].title;
                 let def = JSON.parse(localStorage.getItem(pack))[i].def;
+                let type = JSON.parse(localStorage.getItem(pack))[i].kind;
                 let new_li = document.createElement("li");
+                
                 if (type === "egal") {
                     new_li.innerHTML = title + " = " + def;
                 } else {
@@ -207,7 +204,6 @@ function actu_files() {
             }
             });
             
-            console.log("Here");
             if (opened_sessions.has(good_name)) {
                 to_hide.forEach(e => e.style.display = "flex");
                 unsee.innerText = "v";
@@ -230,14 +226,14 @@ actu_files();
 
 
 function createPack() {
-    const regex = /[*@\[\]{}"',;?]/;
+    const regex = /[*@\[\]{}"';?]/;
     if (regex.test(pack_title.value)) {
         giga_show("Il y a des caractères interdits.");
         return;
     }
     if (pack_title.value != "") {
-        if (!localStorage.getItem(getPack(pack_title.value.trim()))) {
-            localStorage.setItem(pack_title.value + ";" + pack_type.value, "[]");
+        if (!localStorage.getItem(pack_title.value.trim())) {
+            localStorage.setItem(pack_title.value, "[]");
             actu_files();
         } else {
             giga_show("Cette leçon existe déjà.");
@@ -250,14 +246,14 @@ function createPack() {
 
 
 function addPack() {
-    const regex = /[*@\[\]{}"',;?]/;
+    const regex = /["<>\\]/;
     if (regex.test(def_title.value) || regex.test(def.value)) {
         giga_show("Il y a des caractères interdits");
         return;
     }
     if (pack_title_add.value != "" && def_title.value != "" && def.value != "") {
-        if (localStorage.getItem(getPack(pack_title_add.value)) != null) {
-            let pack = JSON.parse(localStorage.getItem(getPack(pack_title_add.value)));
+        if (localStorage.getItem(pack_title_add.value) != null) {
+            let pack = JSON.parse(localStorage.getItem(pack_title_add.value));
 
             if (pack.some(item => item.title.trim() === def_title.value.trim())) {
                 giga_show("Cette définition existe déjà dans cette leçon.");
@@ -265,9 +261,9 @@ function addPack() {
             }
             
 
-            pack.push({title: def_title.value, def: def.value});
+            pack.push({title: def_title.value, def: def.value, kind: def_type.value});
             let new_pack = JSON.stringify(pack);
-            localStorage.setItem(getPack(pack_title_add.value), new_pack);
+            localStorage.setItem(pack_title_add.value, new_pack);
             actu_files();
             def_title.value = "";
             def.value = "";
@@ -283,7 +279,7 @@ function addPack() {
 
 
 function start() {
-    about_ask = JSON.parse(localStorage.getItem(getPack(pack_title_ask.value)));
+    about_ask = JSON.parse(localStorage.getItem(pack_title_ask.value));
     questions_type = questions_type_select.value;
     if (questions_type === "qcm") {
         if (about_ask.length < 5) {
@@ -303,7 +299,7 @@ function start() {
         return;
     }
     
-    if (!localStorage.getItem(getPack(pack_title_ask.value))) {
+    if (!localStorage.getItem(pack_title_ask.value)) {
         giga_show("Cette leçon n'existe pas");
         return;
     }
@@ -319,14 +315,6 @@ function start() {
         asking.className = "shown";
     }
     asked = [];
-    
-    if (getPack(pack_title_ask.value).split(";")[1] === "defs") {
-        about_ask_type = "defs";
-    } else if (getPack(pack_title_ask.value).split(";")[1] === "dates") {
-        about_ask_type = "dates";
-    } else {
-        about_ask_type = "egal";
-    }
 
     interrogation_time = 0;
     time_stat = setInterval(() => {interrogation_time += 0.1;}, 100);
@@ -423,27 +411,27 @@ function askQuestion() {
 
     if (questions_type !== "torf") {
         if (interrogation_side === 0) {
-            if (about_ask_type === "defs") {
+            if (about_ask[question_id].kind === "defs") {
                 if (/^[aeiouyAEIOUY]/.test(title)) {
                     show("Quelle est la définition d\'" + title + " ?");
                 } else {
                     show("Quelle est la définition de " + title + " ?");
                 }
-            } else if (about_ask_type === "dates") {
+            } else if (about_ask[question_id].kind === "dates") {
                 if (/^\d/.test(title)) {
                     show("Que s'est-il passé le " + title + " ?");
                 } else {
                     show("Que s'est-il passé en " + title + " ?");
                 }
-            } else if (about_ask_type === "egal") {
+            } else if (about_ask[question_id].kind === "egal") {
                 show(title + " est égal à :");
             }
         } else {
-            if (about_ask_type === "defs") {
+            if (about_ask[question_id].kind === "defs") {
                 show("Quel est le terme définit par \"" + title + "\" ?");
-            } else if (about_ask_type === "dates") {
+            } else if (about_ask[question_id].kind === "dates") {
                 show("Quelle date va avec \"" + title + "\" ?");
-            } else if (about_ask_type === "egal") {
+            } else if (about_ask[question_id].kind === "egal") {
                 show(title + " est égal à :");
             }
         }
@@ -809,17 +797,6 @@ function wash(text) {
 }
 
 
-
-
-function getPack(baseName) {
-    for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i);
-        if (key.startsWith(baseName + ";")) {
-            return key;
-        }
-    }
-    return null;
-}
 
 
 function exporting() {

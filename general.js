@@ -25,6 +25,10 @@ let parameter_toggle = false;
 let sonor_effects = false;
 
 
+if (localStorage.getItem("text_color") === null) {
+    localStorage.setItem("text_color", "black");
+}
+
 document.querySelectorAll('input').forEach((e) => {e.value = "";});
 
 function actu_color() {
@@ -59,7 +63,7 @@ function actu_color() {
             all_class_files = document.querySelectorAll(".file");
             
             if (!(all_class_files === undefined)) {
-                all_class_files.forEach((i) => {i.style.border = "solid 1px " + localStorage.getItem("text_color"); console.log(i.style.border);});
+                all_class_files.forEach((i) => {i.style.border = "solid 1px " + localStorage.getItem("text_color");});
             }
             document.querySelectorAll("li").forEach((i) => {i.style.color = localStorage.getItem("text_color")});
             parameter_div.style.border = "solid 1px " + localStorage.getItem("text_color");
