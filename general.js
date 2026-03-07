@@ -50,6 +50,10 @@ function actu_color() {
             if (!(ask_div === null)) {
                 ask_div.style.backgroundColor = color_safe;
             }
+            if (document.getElementById("help_div")) {
+                document.getElementById("help_div").style.backgroundColor = color_safe;
+                document.getElementById("help_div").style.border = "solid 1px " + localStorage.getItem("text_color");
+            }
         }
 
         if (localStorage.getItem("text_color") !== null) {

@@ -1,16 +1,10 @@
-- MOST : FAIRE UN GUIDE
-
 - MOST : RESET LE MOT DE PASSE
 - Supprimer le compte (table de requests)
-- Messages comptes en rouge
-- Autoriser les ' dans les defs
+- Logos sur defs pour qu'on sache lesquelles c'est
 - Particules;
 - 65 secondes = 1 minute 5;
 - Mode d'interrogation : relier les réponses;
-
-
+- Actualiser les anciennes saves avec du JON
 (-Comptes classe
 - Sauvegarder des images)
-
-
 RESPONSIVE

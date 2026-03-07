@@ -329,6 +329,53 @@
 }
 
 
+#help {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 111;
+    font-size: 22px;
+}
+
+#help_div {
+    display: none;
+    opacity: 0;
+    text-align: left;
+    width: fit-content;
+    height: fit-content;
+    border: solid 2px black;
+    border-radius: 10px;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(200, 255, 229);
+    transition: opacity 0.3s, background-color 0.5s, border 0.5s;
+    z-index: 113;
+}
+
+#help_cover {
+    position: fixed;
+    z-index: 110;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: none;
+}
+
+#help_div h2 {
+    margin-top: 0px;
+}
+
+
+#help_div h2:hover {
+    transform: scale(1.05);
+}
+
+
+
 /* Overlay centré */
 .overlay-check {
     position: fixed;

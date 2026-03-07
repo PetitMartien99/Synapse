@@ -242,7 +242,9 @@ async function see_profile() {
 
         for (let j = 0; j < session.lessons.length; j++) {
             const lesson = session.lessons[j];
-            if (lesson.name === "text_color") continue;
+            if (lesson.name === "text_color") {
+                continue;
+            }
             let lesson_div = document.createElement("div");
             lesson_div.className = "lesson_div";
             lesson_div.style.border = "solid 1px " + localStorage.getItem("text_color");
@@ -274,7 +276,9 @@ async function see_profile() {
                 const item = items[k];
                 let new_li = document.createElement("li");
                 if (item.kind === "egal") new_li.innerHTML = item.title + " = " + item.def;
-                else new_li.innerHTML = "<div class='titles'>" + item.title + "</div> : " + item.def;
+                else {
+                    new_li.innerHTML = "<div class='titles'>" + item.title + "</div> : " + item.def;
+                }
 
                 new_li.dataset.session = session.name;
                 new_li.dataset.lesson = lesson.name;
@@ -361,8 +365,6 @@ function check_import() {
 
     for (let lesson of session.lessons) {
 
-        if (lesson.name === "text_color") continue;
-
         if (lesson.items && lesson.items.length > 0) {
             empty = false;
             break;
@@ -388,7 +390,7 @@ getID("import_data_button").addEventListener("click", import_data);
 function import_data() {
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key.startsWith("sb-") || key.startsWith("color")) continue;
+        if (key.startsWith("sb-") || key.startsWith("color") || key.startsWith("text_color")) continue;
         localStorage.removeItem(key);
         i--;
     }
@@ -397,11 +399,14 @@ function import_data() {
     const session = whole_data.find(s => s.name === session_name);
 
     for (let lesson of session.lessons) {
-        if (typeof lesson.items !== "string") {
-            localStorage.setItem(lesson.name, JSON.stringify(lesson.items));
-        } else {
-            localStorage.setItem(lesson.name, lesson.items);
-        }
+        if (!(lesson.name === "text_color")) {
+            console.log("there")
+            if (typeof lesson.items !== "string") {
+                localStorage.setItem(lesson.name, JSON.stringify(lesson.items));
+            } else {
+                localStorage.setItem(lesson.name, lesson.items);
+            }
+        }   
     }
 
     import_data_input.value = "";
@@ -483,7 +488,7 @@ async function exporting_data() {
     let newSession = { name: name_input.value, lessons: [] };
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key.startsWith("sb-") || key === "color") continue;
+        if (key.startsWith("sb-") || key === "color" || key.startsWith("text_color")) continue;
     
         let items = localStorage.getItem(key);
     

@@ -37,6 +37,8 @@ let interrogation_time;
 let questions_number;
 let right_answers;
 let time_stat; 
+let help_toggle = false;
+const help_div = document.getElementById("help_div");
 
 let opened_sessions = new Set();
 
@@ -233,12 +235,15 @@ function createPack() {
     }
     if (pack_title.value != "") {
         if (!localStorage.getItem(pack_title.value.trim())) {
-            localStorage.setItem(pack_title.value, "[]");
-            actu_files();
+            if (pack_title.value.startsWith("-sb") || pack_title.value.startsWith("color") || pack_title.value.startsWith("text_color")) {
+                giga_show("Ce nom est interdit");
+            } else {
+                localStorage.setItem(pack_title.value, "[]");
+                actu_files();
+            }
         } else {
             giga_show("Cette leçon existe déjà.");
         }
-    
     } else {
        giga_show("Entrez un titre de leçon.");
     }
@@ -339,10 +344,6 @@ function askQuestion() {
             asking.className = "hide";
         }
 
-        if (questions_type === "write") {
-            asking.className = "shown";
-        }
-
         clearInterval(time_stat);
         let percent = Math.round((right_answers*100) / questions_number);
         if (sonor_effects === true) {
@@ -353,6 +354,7 @@ function askQuestion() {
         animateNumber(document.getElementById("animate_time"), Math.round(interrogation_time));
         animateNumber(document.getElementById("animate_precision"), percent);
         asking.className = "hide";
+        console.log("here");
         let count = 0;
         const interval = setInterval(() => {
             spawnConfetti();
@@ -524,9 +526,8 @@ function askQuestion() {
                         askQuestion();
                         next.remove();
                         reveal.remove();
-                        asking.className = "shown";
                                                   
-                    }, 2000);
+                    }, 1000);
                 }, 700);
             }
         });
@@ -802,6 +803,9 @@ function wash(text) {
 function exporting() {
     let total = "";
     for (let i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).startsWith("color") || localStorage.key(i).startsWith("text_color") || localStorage.key(i).startsWith("-sb")) {
+            continue;
+        }
         if (i != 0) {
             total += "#";
         }
@@ -833,11 +837,11 @@ function decode() {
     for (let i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i).split(";")[0] === "color") {
             console.log("nope"); 
-         } else if (localStorage.key(i).split(";")[0] === "text_color") {
+        } else if (localStorage.key(i).split(";")[0] === "text_color") {
             console.log("nope"); 
-         } else if (localStorage.key(i).split(";")[0].startsWith("sb-")) {
+        } else if (localStorage.key(i).split(";")[0].startsWith("sb-")) {
             console.log("nope");
-         } else {
+        } else {
             localStorage.removeItem(localStorage.key(i));
         }
     }
@@ -867,11 +871,8 @@ function decode() {
         console.log("Import terminé !");
     };
 
-    reader.readAsText(file); // lit le fichier asynchrone
+    reader.readAsText(file); 
 }
-
-
-
 
 
 
@@ -892,9 +893,27 @@ function downloadString(str) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    name.value = "";
 }
 
 
+
+function help() {
+    if (help_toggle === false) {
+        help_div.style.display = "block";
+        help_div.style.opacity = 1;
+        help_toggle = true;
+        document.getElementById("help_cover").style.display = "block";
+    } else {
+        help_div.style.opacity = 0;
+        help_toggle = false;
+        document.getElementById("help_cover").style.display = "none";
+        setTimeout(() => {
+            help_div.style.display = "none";
+        }, 500);
+        
+    }
+}
 
 
 

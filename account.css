@@ -63,7 +63,9 @@ button:disabled {
 
 .titles {
     text-decoration: underline;
-    display: inline;
+    flex: none;
+    white-space: nowrap;
+    margin-right: 5px;
 }
 
 
@@ -161,6 +163,12 @@ button:disabled {
 
 .delete_lesson {
     font-size: 18px;
+}
+
+ul {
+    list-style-type: none; 
+    padding-left: 30px;
+    margin: 0;
 }
 
 li {

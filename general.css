@@ -115,7 +115,7 @@ option {
     background-color: rgb(200, 255, 229);
     text-align: center;
     transition: opacity 0.3s, background-color 0.5s, border 0.5s;
-    z-index: 113;
+    z-index: 114;
 }
 
 #parameter_cover {
