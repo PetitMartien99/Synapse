@@ -69,6 +69,24 @@ updateTypeUI_add();
 def_type.addEventListener("input", updateTypeUI_add);
 
 
+function get_euclide(number) {
+    const quotient = Math.floor(number/60);
+    const remainder = number % 60;
+
+    if (number < 60) {
+        return number + " secondes";
+    } else if (number === 60) {
+        return "1 minute";
+    } else if (remainder === 0) {
+        return remainder + " minutes";
+    } else if (number < 120) {
+        return "1 minute " + remainder + " secondes";
+    } else if (number > 120) {
+        return quotient + " minutes " + remainder + " secondes";
+    }
+}
+
+
 function actu_files() {
     let actual_color;
     if (localStorage.getItem("text_color") !== null) {
@@ -349,10 +367,10 @@ function askQuestion() {
         if (sonor_effects === true) {
             playSound(victory);
         }
-        let text = "Bravo, tu as fini de réviser la leçon !<br><div id='results'><div id='speed'><img id='chrono' src='chronometer.png'><br><div id='animate_time'></div> secondes</div><div id='precision'><img id='cible' src='Cible.png'><br><div id='animate_precision'></div>%</div></div>";
+        let text = "Bravo, tu as fini de réviser la leçon !<br><div id='results'><div id='speed'><img id='chrono' src='Chronometer.png'><br><div id='animate_time'></div></div><div id='precision'><img id='cible' src='Cible.png'><br><div id='animate_precision'></div>%</div></div>";
         show(text);
-        animateNumber(document.getElementById("animate_time"), Math.round(interrogation_time));
-        animateNumber(document.getElementById("animate_precision"), percent);
+        animateNumber("time", document.getElementById("animate_time"), Math.round(interrogation_time));
+        animateNumber("percent", document.getElementById("animate_precision"), percent);
         asking.className = "hide";
         console.log("here");
         let count = 0;
@@ -1084,24 +1102,23 @@ function spawnConfetti() {
     requestAnimationFrame(animate);
 }
 
-function animateNumber(el, target, duration = 2000) {
+function animateNumber(type, el, target, duration = 2000) {
     let start = performance.now();
 
     function frame(now) {
         let t = (now - start) / duration;
         if (t > 1) t = 1;
 
-        // easing normal
         let eased = 1 - Math.pow(1 - t, 2);
 
         let value = Math.floor(eased * target);
 
-        // si on est presque à la fin, on force la dernière partie plus rapide
         if (value >= target - 1) { 
             value = Math.min(value + 1, target);
         }
 
-        el.textContent = value;
+        if (type === "time") el.textContent = get_euclide(value);
+        if (type === "percent") el.textContent = value;
 
         if (value < target) requestAnimationFrame(frame);
     }
@@ -1112,6 +1129,6 @@ function animateNumber(el, target, duration = 2000) {
 
 function playSound(name) {
     if (!name) return;
-    name.currentTime = 0; // pour pouvoir rejouer très vite
+    name.currentTime = 0; 
     name.play();
 }

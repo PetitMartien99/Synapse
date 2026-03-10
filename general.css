@@ -1,3 +1,7 @@
+html {
+    transition: background-color 0.5s;
+}
+
 
 p, h4, h3, h2, h1, input, ul, select, span, label {
     transition: color 0.5s, transform 0.5s ease-in;
@@ -21,7 +25,7 @@ textarea:hover, input:hover {
 }
 
 body {
-    background-color: rgb(200, 255, 229);
+    background-color: rgb(106, 239, 124);
     text-align: center;
 }
 
