@@ -175,7 +175,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgb(200, 255, 229);
+    background-color: rgb(106, 239, 124);
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -266,7 +266,7 @@
 
 
 #ultra_container {
-    background-color: rgb(200, 255, 229);
+    background-color: rgb(106, 239, 124);
     position: fixed;
     left: 0;
     right: 0;

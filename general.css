@@ -116,7 +116,7 @@ option {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(200, 255, 229);
+    background-color: rgb(106, 239, 124);
     text-align: center;
     transition: opacity 0.3s, background-color 0.5s, border 0.5s;
     z-index: 114;

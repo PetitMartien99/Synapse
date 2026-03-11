@@ -10,7 +10,7 @@
     display: block;
 }
 
-#signin_div, #signup_div {
+#signin_div, #signup_div, #see_3 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,11 +19,32 @@
 }
 
 
+#see_3_connected {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    position: fixed;
+    left: 5px;
+    bottom: 10px;
+    width: 350px;
+    transition: transform 0.5s ease-in-out;
+}
+
+#see_3_connected:hover {
+    transform: scale(1.03);
+}
+
+#see_3_connected p {
+    margin-left: 10px;
+}
+
 button:disabled {
     display: none;
 }
 
-#see_data_div {
+.see_data_div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -58,7 +79,7 @@ button:disabled {
 }
 
 .session_div:hover, .lesson_div:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
 }
 
 .titles {
@@ -71,8 +92,8 @@ button:disabled {
 
 #back_to_homepage {
     position: fixed;
-    bottom: 5px;
-    left: 5px;
+    bottom: 35px;
+    right: 5px;
     font-size: 25px;
     transition: color 0.5s, transform 0.5s ease-in;
 }
@@ -121,7 +142,7 @@ button:disabled {
     justify-content: center;
     height: 250px;
     margin-top: 100px;
-    margin-left: 4%;
+
 }
 
 #import_data_div, #add_data_div, #create_session_div {
@@ -132,6 +153,7 @@ button:disabled {
     justify-content: center;
     height: fit-content;
     transition: transform 0.5s ease-in-out;
+    width: 350px;
 }
 
 #import_data_div:hover, #add_data_div:hover {
@@ -175,7 +197,7 @@ ul {
 li {
     display: flex;
     align-items: flex-start;
-    max-width: 950px;
+    max-width: 900px;
     text-align: left;
     flex-direction: row;
     margin-bottom: 5px;

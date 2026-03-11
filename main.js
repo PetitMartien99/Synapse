@@ -116,7 +116,7 @@ function actu_files() {
         return;
     }
 
-    document.querySelector("h2").innerText = "Leçons";
+    document.querySelector("h2").innerText = "Pack de leçons";
     toggle_files_button.style.display = "block";
 
 
@@ -257,6 +257,7 @@ function createPack() {
                 giga_show("Ce nom est interdit");
             } else {
                 localStorage.setItem(pack_title.value, "[]");
+                pack_title.value = "";
                 actu_files();
             }
         } else {
@@ -814,8 +815,6 @@ function wash(text) {
     washed = washed.trim();
     return washed;
 }
-
-
 
 
 function exporting() {

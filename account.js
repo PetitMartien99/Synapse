@@ -14,6 +14,135 @@ let user_let;
 let opened_sessions = new Set();
 let whole_data = null; 
 
+
+getID("see_defs_3").addEventListener("click", see_3_unconnected);
+async function see_3_unconnected() {
+    const { data, error } = await supabase
+        .from('public_data')
+        .select('json_data') 
+        .eq('id', 1);
+
+   if (error) console.log(error);
+    
+
+   getID("see_defs_3").style.display = "none";
+   getID("see_3").querySelector("p").style.display = "none";
+   getID("see_3").querySelector("h2").innerText = "Defs de 3ème";
+
+   const new_data = data[0].json_data; 
+
+    let data_div = document.createElement("div");
+    data_div.className = "see_data_div";
+    getID("see_3").appendChild(data_div);
+
+    for (let i = 0; i < new_data.length; i++) {
+        const session = new_data[i];
+        let session_div = document.createElement("div");
+        session_div.className = "session_div";
+        session_div.style.border = "solid 1px " + localStorage.getItem("text_color");
+        session_div.innerHTML = "<h3>" + session.name + "</h3>";
+        data_div.appendChild(session_div);
+
+        for (let j = 0; j < session.lessons.length; j++) {
+            const lesson = session.lessons[j];
+            if (lesson.name === "text_color") {
+                continue;
+            }
+            let lesson_div = document.createElement("div");
+            lesson_div.className = "lesson_div";
+            lesson_div.style.border = "solid 1px " + localStorage.getItem("text_color");
+            lesson_div.innerHTML = "<h4>" + lesson.name + "</h4>";
+            session_div.appendChild(lesson_div);
+
+            let ul = document.createElement("ul");
+            lesson_div.appendChild(ul);
+
+            if (!lesson.items || !lesson.items.length) {
+                let p = document.createElement("p");
+                p.innerText = "La leçon est vide";
+                lesson_div.appendChild(p);
+                continue;
+            }
+
+            let items = lesson.items;
+        
+
+            for (let k = 0; k < items.length; k++) {
+                const item = items[k];
+                let new_li = document.createElement("li");
+                if (item.kind === "egal") new_li.innerHTML = item.title + " = " + item.def;
+                else {
+                    new_li.innerHTML = "<div class='titles'>" + item.title + "</div> : " + item.def;
+                }
+
+
+                ul.appendChild(new_li);
+            }
+        }
+
+
+        if (session.lessons.length >= 1) {
+            let unsee = document.createElement("button");
+            unsee.innerText = ">";
+            unsee.style.color = localStorage.getItem("text_color");
+            unsee.className = "unsee";
+            let to_hide = session_div.querySelectorAll(".lesson_div");
+            unsee.addEventListener("click", () => {
+                const name = session.name;
+                if (to_hide[0].style.display === "none") {
+                    to_hide.forEach(e => e.style.display = "block");
+                    unsee.innerText = "v";
+                    opened_sessions.add(name);
+                } else {
+                    to_hide.forEach(e => e.style.display = "none");
+                    unsee.innerText = ">";
+                    opened_sessions.delete(name);
+                }
+            });
+            if (opened_sessions.has(session.name)) {
+                to_hide.forEach(e => e.style.display = "block");
+                unsee.innerText = "v";
+            } else {
+                to_hide.forEach(e => e.style.display = "none");
+                unsee.innerText = ">";
+            }
+            session_div.querySelector("h3").appendChild(unsee);
+        }
+    }
+}
+
+
+getID("see_defs_3_connected").addEventListener("click", see_3_connected);
+async function see_3_connected() {
+    const { data, error } = await supabase
+        .from('public_data')
+        .select('json_data') 
+        .eq('id', 1);
+
+   if (error) console.log(error);
+
+
+
+   let correct_data = data[0].json_data;
+    correct_data.forEach((i) => {
+        let test = false;
+        whole_data.forEach((e) => {
+            if (e.name === i.name) {
+                test = true;
+            }
+        });
+        if (!test) {
+            whole_data.push(i);
+        }
+    });
+    const { error: err } = await supabase
+    .from("sessions")
+    .update({ json_data: whole_data })
+    .eq('uid', user_let.id);
+    see_profile();
+}
+
+
 async function update() {
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
@@ -65,34 +194,40 @@ function check_signin() {
     if (mail_input.value === "" || password_input.value === "") {
         signin_message.innerHTML = "Remplissez tous les champs";
         getID("signin_button").disabled = true;
+        signin_message.style.display = "block";
         return;
     }
 
     if (!validateEmail(mail_input.value)) {
         signin_message.innerHTML = "Email invalide";
         getID("signin_button").disabled = true;
+        signin_message.style.display = "block";
         return;
     }
 
     if (mail_input.value.length > 30) {
         signin_message.innerHTML = "Email trop long <br>(maximum 30 caractères)";
         getID("signin_button").disabled = true;
+        signin_message.style.display = "block";
         return;
     }
 
     if (password_input.value.length > 30) {
         signin_message.innerHTML = "Mot de passe trop long <br>(maximum 30 caractères)";
         getID("signin_button").disabled = true;
+        signin_message.style.display = "block";
         return;
     }
 
     if (password_input.value.length < 7) {
         signin_message.innerHTML = "Mot de passe trop court <br>(minimum 7 caractères)";
         getID("signin_button").disabled = true;
+        signin_message.style.display = "block";
         return;
     }
 
     signin_message.innerHTML = "";
+    signin_message.style.display = "none";
     getID("signin_button").disabled = false;
 }
 
@@ -130,34 +265,40 @@ function check_signup() {
     if (mail_input.value === "" || password_input.value === "") {
         signup_message.innerHTML = "Remplissez tous les champs";
         getID("signup_button").disabled = true;
+        signup_message.style.display = "block";
         return;
     }
 
     if (!validateEmail(mail_input.value)) {
         signup_message.innerHTML = "Email invalide";
         getID("signup_button").disabled = true;
+        signup_message.style.display = "block";
         return;
     }
 
     if (mail_input.value.length > 30) {
         signup_message.innerHTML = "Email trop long <br>(maximum 30 caractères)";
         getID("signup_button").disabled = true;
+        signup_message.style.display = "block";
         return;
     }
 
     if (password_input.value.length > 30) {
         signup_message.innerHTML = "Mot de passe trop long <br>(maximum 30 caractères)";
         getID("signup_button").disabled = true;
+        signup_message.style.display = "block";
         return;
     }
 
     if (password_input.value.length < 7) {
         signup_message.innerHTML = "Mot de passe trop court <br>(minimum 7 caractères)";
         getID("signup_button").disabled = true;
+        signup_message.style.display = "block";
         return;
     }
 
     signup_message.innerHTML = "";
+    signup_message.style.display = "none";
     getID("signup_button").disabled = false;
 }
 
@@ -201,6 +342,14 @@ async function signOut() {
 }
 
 
+/*
+ --------------------
+|                    |
+|     SEE PROFILE    |
+|                    |
+ --------------------
+*/
+
 async function see_profile() {
     const mail_address = getID("mail_address");
     mail_address.innerHTML = "<span class='titles'>Email:</span> " + user_let.email;
@@ -213,7 +362,7 @@ async function see_profile() {
     if (error) return console.log(error.code);
 
     whole_data = data[0].json_data || []; 
-    const see_div = getID("see_data_div");
+    const see_div = getID("see_data_div_id");
     see_div.innerHTML = "<h2>Sessions</h2>";
 
     if (!whole_data.length) {
@@ -471,6 +620,8 @@ async function delete_object(type, element) {
 
     if (!error) see_profile();
 
+    getID("add_data_input").value = "";
+    getID("import_data_input").value = "";
     check_add();
     check_create();
     check_import();
@@ -568,6 +719,7 @@ async function exporting_data() {
         getID("add_data_p").style.display = "block";
         getID("add_data_p").innerHTML = "Leçons ajoutées";
         see_profile();
+        check_import();
     }
 }
 

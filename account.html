@@ -8,7 +8,7 @@
         <meta name="robots" content="noindex,nofollow">
     </head>
     <body>
-        <div id="inline"><h1>Synapse</h1></div>
+        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.7.0</h3></div>
         <p id="connection"></p>
 
         <div id="sign_div">
@@ -25,6 +25,12 @@
                 <input id="signup_password" placeholder="Mot de passe" type="password">
                 <p id="signup_message"></p>
                 <button disabled="true" id="signup_button">Créer un compte</button>
+            </div>
+
+            <div id="see_3">
+                <h2>Voir les defs de 3ème</h2>
+                <p>Note : pour interargir avec les defs et se faire interroger,<br> veuillez créer un compte</p>
+                <button id="see_defs_3">Voir les defs</button>
             </div>
         </div>
 
@@ -65,9 +71,15 @@
             </div>
              
             <div id="see_data_container">
-                <div id="see_data_div">
+                <div class="see_data_div" id="see_data_div_id">
 
                 </div>
+            </div>
+
+            <div id="see_3_connected">
+                <h2>Importer les defs de 3ème</h2>
+                <p>Note : Si vous avez des sessions appelées Maths, Français, Technologie, Physique, SVT ou Histoire, les sessions de 3ème correspondantes ne seront pas importées.</p>
+                <button id="see_defs_3_connected">Importer les defs</button>
             </div>
 
         </div>
