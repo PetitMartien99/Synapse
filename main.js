@@ -350,6 +350,21 @@ function start() {
     askQuestion();
 }
 
+document.getElementById("quit_lesson").addEventListener("click", () => {
+    if (pre_shown === true) {
+        shown === false;
+        toggle_files();
+    }
+    
+    asking.className = "hide";
+    ask_div.style.opacity = "0";
+    msg.style.opacity = "0";
+    ask_div.style.display = "none";
+    ask_div.style.opacity = "1";
+    msg.style.opacity = "1";
+    ultra_container.style.display = "block";
+    body.style.overflow = "auto";
+});
 
 function askQuestion() {
 
@@ -386,6 +401,7 @@ function askQuestion() {
 
         let continue_button = document.createElement("button");
         continue_button.innerText = "Continuer";  
+        continue_button.id = "continue";
         if (toggle_t === true) {
             continue_button.style.color = "white";
         } else {
@@ -445,7 +461,7 @@ function askQuestion() {
             }
         } else {
             if (about_ask[question_id].kind === "defs") {
-                show("Quel est le terme définit par \"" + title + "\" ?");
+                show("Quel est le terme défini par \"" + title + "\" ?");
             } else if (about_ask[question_id].kind === "dates") {
                 show("Quelle date va avec \"" + title + "\" ?");
             } else if (about_ask[question_id].kind === "egal") {
@@ -477,6 +493,7 @@ function askQuestion() {
 
 
     let reveal = document.createElement("button");
+    reveal.id = "reveal";
     if (questions_type === "auto") {
         reveal.innerText = "Valider";
     } else {
@@ -492,6 +509,7 @@ function askQuestion() {
 
     let next = document.createElement("button");
     next.innerText = "Suivant";
+    next.id = "next";
     next.className = "hide";
     if (toggle_t === true) {
         next.style.color = "white";
@@ -530,6 +548,7 @@ function askQuestion() {
                 asking.className = "hide";
                 if (wash(user_answer) === wash(def)) {
                     show("C'était la bonne réponse");
+                    right_answers += 1;
                     reveal.className = "hide";
                     next.className = "shown";
                     next.onclick = () => {
@@ -543,9 +562,11 @@ function askQuestion() {
                     show("Ta réponse était : <br>" + user_answer + "<br> La bonne réponse était : <br> \"" + def + "\"");
                     let accept = document.createElement("button");
                     accept.innerText = "Ma réponse est bonne";
+                    accept.id = "accept";
                     ask_div.appendChild(accept);
                     let refuse = document.createElement("button");
                     refuse.innerText = "Ma réponse est fausse";
+                    refuse.id = "refuse";
                     ask_div.appendChild(refuse);
 
                     accept.onclick = () => {
