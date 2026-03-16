@@ -1033,6 +1033,39 @@ function help() {
 }
 
 
+function choose(element) {
+    let create_button = document.getElementById("choosing_create");
+    let add_button = document.getElementById("choosing_add");
+    let ask_button = document.getElementById("choosing_learn");
+    let create = document.getElementById("create");
+    let add = document.getElementById("add");
+    let ask = document.getElementById("ask");
+
+    if (element === "create") {
+        create_button.style.textDecoration = "underline";
+        add_button.style.textDecoration = "none";
+        ask_button.style.textDecoration = "none";
+        create.style.display = "flex";
+        add.style.display = "none";
+        ask.style.display = "none";
+    }
+    if (element === "add") {
+        create_button.style.textDecoration = "none";
+        add_button.style.textDecoration = "underline";
+        ask_button.style.textDecoration = "none";
+        create.style.display = "none";
+        add.style.display = "flex";
+        ask.style.display = "none";
+    }
+    if (element === "ask") {
+        create_button.style.textDecoration = "none";
+        add_button.style.textDecoration = "none";
+        ask_button.style.textDecoration = "underline";
+        create.style.display = "none";
+        add.style.display = "none";
+        ask.style.display = "flex";
+    }
+}
 
 
 function playCheckAnimation() {

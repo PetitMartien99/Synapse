@@ -6,9 +6,10 @@
         <link rel="stylesheet" href="general.css">
         <link rel="stylesheet" href="account.css">
         <meta name="robots" content="noindex,nofollow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.8.6</h3></div>
+        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.9.1</h3></div>
         <p id="connection"></p>
 
         <div id="sign_div">
@@ -55,16 +56,15 @@
                 <div id="add_data_div">
                     <h2 id="add_data_h3">Ajouter le pack de leçons actuel</h2>
                     <input placeholder="Nom de la session" id="add_data_input">
-                    <p id="danger_export">(Si la session actuelle contient une leçon <br>dont le nom est déjà présent dans la session <br>sélectionnée, elle sera supprimée)</p>
+                    <p id="danger_export">Note: (Si le pack actuel contient une leçon <br>dont le nom est déjà présent dans la session <br>sélectionnée, ladite leçon de la session sera supprimée)</p>
                     <p id="add_data_p"></p>
                     <button disabled="true" id="add_data_button">Ajouter</button>
                 </div>
 
                 <div id="import_data_div">
                     <h2 id="import_data_h3">Ouvrir une session</h2>
-            
                     <input placeholder="Nom de la session" id="import_data_input">
-                    <p id="danger_import">(Si la session actuelle n'a pas été <br>enregistrée, elle sera supprimée)</p>
+                    <p id="danger_import">Note: (Si le pack actuel n'a pas été <br>enregistré, il sera supprimé)</p>
                     <p id="import_data_p"></p>
                     <button disabled="true" id="import_data_button">Ouvrir </button>
                 </div>
@@ -100,7 +100,7 @@
         </div>
         <div id="parameter_cover"></div>
             
-        <button id="parameter" onclick="parameter()">Paramètres</button>
+        <button id="parameter" onclick="parameter()"><img src="parameter.png"></button>
 
         <script src="general.js"></script>
         <script type="module" src="account.js"></script>

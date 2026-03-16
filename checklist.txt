@@ -1,4 +1,4 @@
-- Restitution écrite : voir sa propre réponse  + autovalidation
+- Que cliquer sur parameter_cover ferme paramètre
 - Enlever les éventuels points dans torf
 - Logos sur defs pour qu'on sache lesquelles c'est
 - Particules;

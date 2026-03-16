@@ -6,11 +6,19 @@
         <link rel="stylesheet" href="main.css">
         <link rel="stylesheet" href="general.css">
         <meta name="robots" content="noindex,nofollow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body> 
-        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.8.6</h3></div>
+        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.9.1</h3></div>
         <div id="ultra_container">
             <p></p>
+            <div id="contain_choose">
+                <div id="choosing_stuff">
+                    <button onclick="choose('create')" id="choosing_create">Créer</button>
+                    <button onclick="choose('add')"id="choosing_add">Ajouter</button>
+                    <button onclick="choose('ask')"id="choosing_learn">Interroger</button>
+                </div>
+            </div>
             <div id="container"> 
                 <div id="create">
                     <p class="title_bigger">Créer une leçon :</p>
@@ -55,7 +63,7 @@
         </div>
         
         <div id="ask_div">
-            <button id="quit_lesson">Revenir à l'accueil</button>
+            <button id="quit_lesson"><img src="home.png"></button>
             <p id="msg"></p>
             <textarea cols="20" rows="90" id="asking"></textarea>
             <div id="writer">
@@ -91,18 +99,18 @@
         <div id="help_div">
             <h2>Aide</h2>
             <p>On peut créer des leçons, qui peuvent contenir des définitions, des dates ou encore des égalités.</p>
-            <h3>Enregisrement</h3>
+            <h3>Enregistrement</h3>
             <ul>
                 <li>
-                    <p>Pour enregistrer l'ensemble des leçons actuelles (ce qu'on appelle le pak de leçons), on peut les télécharger sous forme de fichier .txt via l'interface Import/Export.</p>  
+                    <p>Pour enregistrer l'ensemble des leçons actuelles (ce qu'on appelle le pack de leçons), on peut les télécharger sous forme de fichier .txt via l'interface Import/Export.</p>  
                     <p>Pour accéder à un pack de leçons stockée sous forme de fichier .txt, il suffit de, dans l'interface Import/Export, sélectionner le fichier, puis de cliquer sur importer. </p>
                 </li>
-                <li>
-            <p>Une autre solution d'enregistrement consiste à créer un compte dans la page Compte, y créer une ou plusieurs sessions, et y enregistrer le pack de leçons actuel. Il suffira ensuite de se connecter pour avoir accès à toutes ses sessions. </p>
-            <p>Pour accéder à une session stockée dans le compte, il faut se rendre sur la page Compte, se connecter si on ne l'est pas déjà, sélectionner la session et cliquer sur importer.</p>
+               <li>
+                <p>Une autre solution d'enregistrement consiste à créer un compte dans la page Compte, y créer une ou plusieurs sessions, et y enregistrer le pack de leçons actuel. Il suffira ensuite de se connecter pour avoir accès à toutes ses sessions. </p>
+                <p>Pour accéder à une session stockée dans le compte, il faut se rendre sur la page Compte, se connecter si on ne l'est pas déjà, sélectionner la session et cliquer sur importer.</p>
                 </li>
             </ul>
-            <p>Attention : importer une session effacera la session actuellement chargée.</p>
+            <p>Attention : importer une session effacera le pack de leçons actuellement chargé.</p>
             <p>Enfin, on peut se faire interroger : attention, le mode Restitution Écrite nécessite de taper la définition correctement, sans reformuler ou changer les mots.</p>
             <p>Si vous rencontrez un bug, signalez-le au créateur du site (Alban).</p>
         </div>
@@ -111,11 +119,11 @@
 
         <div id="parameter_cover"></div>
             
-        <button id="parameter" onclick="parameter()">Paramètres</button>
+        <button id="parameter" onclick="parameter()"><img src="parameter.png"></button>
 
-        <button id="help" onclick="help()">Aide</button>
+        <button id="help" onclick="help()">?</button>
 
-        <a id="account_link" href="account.html">Compte</a>
+        <a id="account_link" href="account.html"><img src="compte.png"></a>
 
         <script src="general.js"></script>
         <script src="main.js"></script>

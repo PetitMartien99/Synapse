@@ -682,8 +682,6 @@ async function exporting_data() {
         if (key.startsWith("sb-") || key === "color" || key.startsWith("text_color")) continue;
     
         let items = localStorage.getItem(key);
-    
-        // Si c'est une string JSON, on la parse pour avoir un tableau JS
         try {
             items = JSON.parse(items);
         } catch (e) {
@@ -695,16 +693,24 @@ async function exporting_data() {
             items: items
         });
     }
+    newStuff.forEach((e) => {
+        if (present_lessons.includes(e.name)) {
+            if (newData.lessons.length !== 0) {
+                if (newData.lessons.length === 1) {
+                    newData.lessons = [];
+                } else {
+                    newData.lessons = newData.lessons.filter(s => s.name !== e.name);
+                }
+            }
+        }
+    });
 
-    newStuff = newStuff.filter(e => !present_lessons.includes(e.name));
     if (newStuff.length === 0) {
         return;
     }
-    console.log(newData.lessons.length);
-    newStuff.forEach((e) => {
+    newStuff.forEach((e) => {   
         newData.lessons.push(e);
-    })
-    console.log(newData.lessons.length);
+    });
 
     whole_data.filter(s => s.name === name_input.value).lessons = newData;
 

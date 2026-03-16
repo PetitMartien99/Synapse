@@ -104,6 +104,20 @@ option {
     font-size: 22px;
 }
 
+#parameter img {
+    width: 50px;
+}
+
+@media screen and (width <= 450px) {
+    #parameter img{
+        width: 40px;      
+    }
+    #parameter {
+        bottom: -5px;
+        right: -5px;
+    }
+}
+
 #parameter_div {
     display: none;
     opacity: 0;
@@ -188,6 +202,23 @@ option {
     z-index: 400;
     transition: transform 0.5s ease-in-out;
     text-align: left;
+}
+
+@media screen and (width <= 450px) {
+    #inline {
+        display: flex;
+        align-items: first baseline;
+    }
+
+    #inline h1{
+        font-size: 35px;
+        
+    }
+    #inline h3 {
+        font-size: 20px;
+        margin-left: -55px;
+        margin-top: -15px;
+    }
 }
 
 #inline:hover {

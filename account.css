@@ -92,7 +92,7 @@ button:disabled {
 
 #back_to_homepage {
     position: fixed;
-    bottom: 35px;
+    bottom: 70px;
     right: 5px;
     font-size: 25px;
     transition: color 0.5s, transform 0.5s ease-in;
