@@ -67,7 +67,7 @@ function actu_color() {
             all_class_files = document.querySelectorAll(".file");
             
             if (!(all_class_files === undefined)) {
-                all_class_files.forEach((i) => {i.style.border = "solid 1px " + localStorage.getItem("text_color");});
+                all_class_files.forEach((i) => {i.style.border = "solid 2px " + localStorage.getItem("text_color");});
             }
             document.querySelectorAll("li").forEach((i) => {i.style.color = localStorage.getItem("text_color")});
             parameter_div.style.border = "solid 1px " + localStorage.getItem("text_color");
@@ -76,7 +76,7 @@ function actu_color() {
                 document.getElementById("account_small").style.border = "1px solid " + localStorage.getItem("text_color");
             }
             if (document.querySelectorAll(".session_div").length != 0) {
-                document.querySelectorAll(".session_div").forEach((e) => {e.style.border = "1px solid " + localStorage.getItem("text_color")});
+                document.querySelectorAll(".session_div").forEach((e) => {e.style.border = "2px solid " + localStorage.getItem("text_color")});
             }
             if (document.querySelectorAll(".lesson_div").length != 0) {
                 document.querySelectorAll(".lesson_div").forEach((e) => {e.style.border = "1px solid " + localStorage.getItem("text_color")});

@@ -6,6 +6,20 @@
     display: block;
 }
 
+#ultra_container, body, .see_data_div {
+    transition: color 0.5s;
+}
+
+#ultra_container {
+    background-color: rgb(106, 239, 124);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 420px;
+    z-index: 1;
+}
+
 #account_div {
     display: block;
 }
@@ -51,10 +65,13 @@ button:disabled {
     justify-content: center;
     width: fit-content;
     padding: 10px;
+    margin-top: 370px;
 }
 
-#see_data_div h2 {
-    margin-bottom: 70px;
+#see_data_div_id h2 {
+    position: fixed;
+    z-index: 2;
+    top: 380px;
 }
 
 #see_data_container {
@@ -93,13 +110,17 @@ button:disabled {
 #back_to_homepage {
     position: fixed;
     bottom: 70px;
-    right: 5px;
+    right: 8px;
     font-size: 25px;
     transition: color 0.5s, transform 0.5s ease-in;
 }
 
 #back_to_homepage:hover {
     transform: scale(1.03);
+}
+
+#back_to_homepage img {
+    width: 55px;
 }
 
 
@@ -142,7 +163,11 @@ button:disabled {
     justify-content: center;
     height: 250px;
     margin-top: 100px;
-
+    position: fixed;
+    top: -30px;
+    left: 150px;
+    right: 150px;
+    z-index: 2;
 }
 
 #import_data_div, #add_data_div, #create_session_div {
@@ -164,10 +189,11 @@ button:disabled {
 #special_h1 {
     font-size: 30px;
     width: fit-content;
-    position: absolute;
+    position: fixed;
     top: 20px;
     left: 50%;
     transform: translate(-50%, 0); 
+    z-index: 2;
 }
 
 .session_div h3 {

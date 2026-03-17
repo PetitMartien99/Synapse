@@ -1,3 +1,8 @@
+- Dans la page account, changer les messages de réussite en les accordant en nombre
+- Mettre une limite de taille
+- VERBES IRREGULIERS
+- Choisir la longueur d'interrogation
+- Update le help quand on est sur téléphone (enlever l'indication d'import/export)
 - Que cliquer sur parameter_cover ferme paramètre
 - Enlever les éventuels points dans torf
 - Logos sur defs pour qu'on sache lesquelles c'est
@@ -5,5 +10,5 @@
 - Mode d'interrogation : relier les réponses;
 - Actualiser les anciennes saves avec du JSON
 - Sauvegarder des images
-RESPONSIVE
+- RESPONSIVE
 - Supprimer le compte (table de requests)

@@ -1,14 +1,6 @@
-html {
-    transition: background-color 0.5s;
-}
-
 
 p, h4, h3, h2, h1, input, ul, select, span, label {
     transition: color 0.5s, transform 0.5s ease-in;
-}
-
-body {
-    transition: background-color 0.5s;
 }
 
 input, button {
@@ -132,7 +124,7 @@ option {
     transform: translate(-50%, -50%);
     background-color: rgb(106, 239, 124);
     text-align: center;
-    transition: opacity 0.3s, background-color 0.5s, border 0.5s;
+    transition: opacity 0.3s, border 0.5s;
     z-index: 114;
 }
 

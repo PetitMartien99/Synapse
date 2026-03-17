@@ -50,15 +50,15 @@ const correct = new Audio("Correct.mp3");
 
 function updateTypeUI_add() {
     if (def_type.value === "defs") {
-        add_p.innerText = "Ajouter une définition";
+        add_p.innerText = "Nouvelle définition";
         def_title.placeholder = "Nom de la définition";
         def.placeholder = "Définition";
     } else if (def_type.value === "dates") {
-        add_p.innerText = "Ajouter une date";
+        add_p.innerText = "Nouvelle date";
         def_title.placeholder = "Date";
         def.placeholder = "Ce qu'il s'y est passé";
     } else {
-        add_p.innerText = "Ajouter une égalité";
+        add_p.innerText = "Nouvelle égalité";
         def_title.placeholder = "Premier membre";
         def.placeholder = "Deuxième membre";
     }
@@ -209,7 +209,7 @@ function actu_files() {
             unsee.style.color = localStorage.getItem("text_color");
             unsee.className = "unsee";
             let to_hide = div.querySelectorAll("li");
-            unsee.addEventListener("click", () => {
+            div.querySelector("span").addEventListener("click", () => {
             if (to_hide[0] === undefined) {
                 return;
             }
@@ -344,9 +344,10 @@ function start() {
     time_stat = setInterval(() => {interrogation_time += 0.1;}, 100);
     right_answers = 0;
 
-    
+    document.getElementById("quit_lesson").className = "shown";
     ultra_container.style.display = "none";
     body.style.overflow = "hidden";
+    
     askQuestion();
 }
 
@@ -367,6 +368,11 @@ document.getElementById("quit_lesson").addEventListener("click", () => {
     }
     if (!(ask_div.querySelector("#refuse") === null)) {
         ask_div.removeChild(ask_div.querySelector("#refuse"));
+    }
+    if (!(ask_div.querySelectorAll(".phover") === null || ask_div.querySelectorAll(".phover") === undefined)) {
+        document.querySelectorAll(".phover").forEach((e) => {
+            document.getElementById("writer").removeChild(e);
+        });
     }
     asking.className = "hide";
     ask_div.style.opacity = "0";
@@ -419,6 +425,7 @@ function askQuestion() {
         if (sonor_effects === true) {
             playSound(victory);
         }
+        document.getElementById("quit_lesson").className = "hide";
         let text = "Bravo, tu as fini de réviser la leçon !<br><div id='results'><div id='speed'><img id='chrono' src='Chronometer.png'><br><div id='animate_time'></div></div><div id='precision'><img id='cible' src='Cible.png'><br><div id='animate_precision'></div>%</div></div>";
         show(text);
         animateNumber("time", document.getElementById("animate_time"), Math.round(interrogation_time));
@@ -582,15 +589,22 @@ function askQuestion() {
                 asking.value = "";
                 asking.className = "hide";
                 if (wash(user_answer) === wash(def)) {
-                    show("C'était la bonne réponse");
-                    right_answers += 1;
+                    if (sonor_effects === true) {
+                        playSound(correct);
+                    }
+                    show("");
                     reveal.className = "hide";
-                    next.className = "shown";
-                    next.onclick = () => {
-                        askQuestion();
-                        next.remove();
-                        reveal.remove();
-                    };
+                    playCheckAnimation();
+                    setTimeout(() => {
+                        show("C'était la bonne réponse");
+                        right_answers += 1;
+                        next.className = "shown";
+                        next.onclick = () => {
+                            askQuestion();
+                            next.remove();
+                            reveal.remove();
+                        };
+                    }, 1900);
                 } else {
                     reveal.className = "hide";
                     show("Ta réponse était : <br>\"" + user_answer + "\"<br> La bonne réponse était : <br> \"" + def + "\"");

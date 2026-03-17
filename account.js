@@ -39,7 +39,7 @@ async function see_3_unconnected() {
         const session = new_data[i];
         let session_div = document.createElement("div");
         session_div.className = "session_div";
-        session_div.style.border = "solid 1px " + localStorage.getItem("text_color");
+        session_div.style.border = "solid 2px " + localStorage.getItem("text_color");
         session_div.innerHTML = "<h3>" + session.name + "</h3>";
         data_div.appendChild(session_div);
 
@@ -87,7 +87,7 @@ async function see_3_unconnected() {
             unsee.style.color = localStorage.getItem("text_color");
             unsee.className = "unsee";
             let to_hide = session_div.querySelectorAll(".lesson_div");
-            unsee.addEventListener("click", () => {
+            session_div.querySelector("h3").addEventListener("click", () => {
                 const name = session.name;
                 if (to_hide[0].style.display === "none") {
                     to_hide.forEach(e => e.style.display = "block");
@@ -374,7 +374,7 @@ async function see_profile() {
         const session = whole_data[i];
         let session_div = document.createElement("div");
         session_div.className = "session_div";
-        session_div.style.border = "solid 1px " + localStorage.getItem("text_color");
+        session_div.style.border = "solid 2px " + localStorage.getItem("text_color");
         session_div.innerHTML = "<h3>" + session.name + "</h3>";
         see_div.appendChild(session_div);
         session_div.dataset.session = session.name;
@@ -476,7 +476,7 @@ async function see_profile() {
             unsee.style.color = localStorage.getItem("text_color");
             unsee.className = "unsee";
             let to_hide = session_div.querySelectorAll(".lesson_div");
-            unsee.addEventListener("click", () => {
+            session_div.querySelector("h3").addEventListener("click", () => {
                 const name = session.name;
                 if (to_hide[0].style.display === "none") {
                     to_hide.forEach(e => e.style.display = "block");
@@ -508,6 +508,10 @@ function check_import() {
 
     const button = getID("import_data_button");
     const message = getID("import_data_p");
+
+    if (import_data_input.value === "") {
+        return;
+    }
 
     if (!whole_data || whole_data.length === 0) {
         message.style.display = "block";
@@ -636,6 +640,10 @@ function check_add() {
     const button = getID("add_data_button");
     const message = getID("add_data_p");
 
+    if (name_input.value === "") {
+        return;
+    }
+
     if (!whole_data || whole_data.length === 0) {
         message.style.display = "block";
         message.innerText = "Il n'y a pas de session à importer";
@@ -738,6 +746,11 @@ function check_create() {
     const message = getID("create_session_p");
     const input = getID("create_session_input");
     const regex = /[<>"'\\]/;
+
+    if (input.value === "") {
+        return;
+    }
+        
 
     if (regex.test(input.value)) {
         button.disabled = true;
