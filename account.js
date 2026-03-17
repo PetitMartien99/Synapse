@@ -32,7 +32,7 @@ async function see_3_unconnected() {
    const new_data = data[0].json_data; 
 
     let data_div = document.createElement("div");
-    data_div.className = "see_data_div";
+    data_div.className = "see_data_div_3";
     getID("see_3").appendChild(data_div);
 
     for (let i = 0; i < new_data.length; i++) {
