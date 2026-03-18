@@ -183,7 +183,7 @@ function actu_files() {
                 if (type === "egal") {
                     new_li.innerHTML = title + " = " + def;
                 } else {
-                    new_li.innerHTML = "<div class='titles'>" + title + "</div> : " + def;
+                    new_li.innerHTML = "<div class='titles'>" + title + " :</div>  " + def;
                 }
                 
                 ul.appendChild(new_li);
@@ -234,7 +234,15 @@ function actu_files() {
             div.querySelector("span").appendChild(unsee);
         }
 
+
     }
+
+    let secure_p = document.createElement("p");
+    let secure_p_2 = document.createElement("p");
+    document.getElementById("contain_files").appendChild(secure_p);
+    document.getElementById("contain_files").appendChild(secure_p_2);
+
+
     updateTypeUI_add();
     all_class_files = document.querySelectorAll(".file");
     all_small_buttons = document.querySelectorAll(".delete_button");
@@ -257,6 +265,7 @@ function createPack() {
                 giga_show("Ce nom est interdit");
             } else {
                 localStorage.setItem(pack_title.value, "[]");
+                pack_title_add.value = pack_title.value;
                 pack_title.value = "";
                 actu_files();
             }
@@ -403,7 +412,7 @@ function check_input(reveal, next, def) {
                 next.remove();
                 reveal.remove();
                                           
-            }, 1500);
+            }, 1900);
         }, 700);
     }
 }
@@ -492,7 +501,7 @@ function askQuestion() {
     if (questions_type !== "torf") {
         if (interrogation_side === 0) {
             if (about_ask[question_id].kind === "defs") {
-                show("Quelle est la définition de \"" + title + "\" ?");            
+                show("Quelle est la définition de : <br>\"" + title + "\" ?");            
             } else if (about_ask[question_id].kind === "dates") {
                 if (/^\d/.test(title)) {
                     show("Que s'est-il passé le " + title + " ?");
@@ -504,7 +513,7 @@ function askQuestion() {
             }
         } else {
             if (about_ask[question_id].kind === "defs") {
-                show("Quel est le terme défini par \"" + title + "\" ?");
+                show("Quel est le terme défini par :<br>\"" + title + "\" ?");
             } else if (about_ask[question_id].kind === "dates") {
                 show("Quelle date va avec \"" + title + "\" ?");
             } else if (about_ask[question_id].kind === "egal") {
@@ -564,7 +573,7 @@ function askQuestion() {
     if (questions_type != "auto") {
         reveal.onclick = () => {
             if (questions_type === "torf") {
-                show("La réponse était " + torf_var.toLowerCase());
+                show("La réponse était \"" + torf_var.toLowerCase() + "\"");
             } else {
                 show("La réponse était : \"" + def + "\"");
             }
@@ -872,7 +881,7 @@ function askQuestion() {
             }
             playCrossAnimation();
             setTimeout(() => {
-                show("Dommage... La bonne réponse était " + torf_var.toLowerCase() + ".");
+                show("Dommage... La bonne réponse était \"" + torf_var.toLowerCase() + "\"");
                 next.className = "shown";
                 next.onclick = () => {
                     askQuestion();

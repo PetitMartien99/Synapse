@@ -50,6 +50,12 @@ function actu_color() {
             if (!(ask_div === null)) {
                 ask_div.style.backgroundColor = color_safe;
             }
+            if (!(document.getElementById("mobile_up") === null)) {         
+                document.getElementById("mobile_up").style.backgroundColor = color_safe;
+            }
+            if (!(document.getElementById("mobile_down") === null)) {
+                document.getElementById("mobile_down").style.backgroundColor = color_safe;
+            }
             if (document.getElementById("help_div")) {
                 document.getElementById("help_div").style.backgroundColor = color_safe;
                 document.getElementById("help_div").style.border = "solid 1px " + localStorage.getItem("text_color");
@@ -156,6 +162,12 @@ color.addEventListener("input", () => {
         parameter_div.style.backgroundColor = color.value;
         if (!(ask_div === null)) {
             ask_div.style.backgroundColor = color.value;
+        }
+        if (!(document.getElementById("mobile_up") === null)) {         
+            document.getElementById("mobile_up").style.backgroundColor = color.value;
+        }
+        if (!(document.getElementById("mobile_down") === null)) {
+            document.getElementById("mobile_down").style.backgroundColor = color.value;
         }
         let safe_color = color.value.replace("#", "");
         localStorage.setItem("color", safe_color);

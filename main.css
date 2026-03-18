@@ -65,6 +65,24 @@ body {
     text-align: left;
     flex-direction: row;
     transition: color 0.5s, transform 0.4s ease-out;
+    position: relative;
+}
+
+.delete_def {
+    align-self: flex-start;
+    margin-top: -3px;
+}
+
+@media screen and (width <= 450px) {
+    .file li {
+        font-size: 18px;
+        flex-direction: column;
+    }
+
+    .delete_def {
+        position: absolute;
+        right: 0;
+    }
 }
 
 .file li:hover {
@@ -93,11 +111,6 @@ body {
     border: transparent;
     margin: 0;
     font-size: 25px;
-}
-
-.delete_def {
-    align-self: flex-start;
-    margin-top: -3px;
 }
 
 
@@ -181,6 +194,10 @@ body {
     margin-top: 480px;
 }
 
+#mobile_up, #mobile_down {
+    background-color: rgb(106, 239, 124);
+}
+
 @media screen and (width <= 450px) {
     #container {
         top: 0px;
@@ -214,6 +231,25 @@ body {
         height: fit-content;
         margin-top: 10px;
     }
+
+    #mobile_up {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        z-index: 70;
+    }
+
+    #mobile_down {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 50px;
+        height: 100px;
+        z-index: 70;
+        border-top-left-radius: 8px;
+    }
 }
 
 #ask_div {
@@ -238,6 +274,17 @@ body {
 
 #ask_div p {
     font-size: 32px;
+}
+
+@media screen and (width <= 450px) {
+    #ask_div p {
+        font-size: 22px;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+    #next, #reveal, #continue, #accept, #refuse {
+        font-size: 25px;
+    }
 }
 
 #ask_div input {
@@ -592,5 +639,5 @@ body {
     width: 20px;
     background-color: #e74c3c;
     position: absolute;
-    z-index: 100000;
+    z-index: 10000;
 }

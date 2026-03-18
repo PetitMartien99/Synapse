@@ -352,7 +352,7 @@ async function signOut() {
 
 async function see_profile() {
     const mail_address = getID("mail_address");
-    mail_address.innerHTML = "<span class='titles'>Email:</span> " + user_let.email;
+    mail_address.innerHTML = "<span class='titles'>Email:</span><br> " + user_let.email;
 
     const { data, error } = await supabase
         .from('sessions')
@@ -626,9 +626,10 @@ async function delete_object(type, element) {
 
     getID("add_data_input").value = "";
     getID("import_data_input").value = "";
-    check_add();
-    check_create();
-    check_import();
+    getID("import_data_p").innerHTML = "";
+    getID("add_data_p").innerHTML = "";
+    getID("add_data_button").disabled = true;
+    getID("import_data_button").disabled = true;
 }
 
 
