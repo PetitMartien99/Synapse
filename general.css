@@ -83,6 +83,12 @@ select:hover {
     transform: scale(1.05);
 }
 
+#close_parameter {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
 
 option {
     font-size: 16px;
@@ -125,7 +131,7 @@ option {
     background-color: rgb(106, 239, 124);
     text-align: center;
     transition: opacity 0.3s, border 0.5s;
-    z-index: 114;
+    z-index: 500;
 }
 
 #parameter_cover {

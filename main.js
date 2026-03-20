@@ -25,10 +25,7 @@ asking.className = "hide";
 asking.value = "";
 const msg = document.getElementById("msg");
 const writer = document.getElementById("writer");
-const toggle_files_button = document.getElementById("toggle");
 const pack_type = document.getElementById("pack_type");
-let pre_shown;
-let shown = true;
 let asked = [];
 let questions_type_select = document.getElementById("questions_type_select");
 let questions_type;
@@ -112,12 +109,10 @@ function actu_files() {
     }
     if (test_token) {
         document.getElementById("lessons").style.display = "none";
-        toggle_files_button.style.display = "none";
         return;
     }
 
     document.querySelector("h2").innerText = "Pack de leçons";
-    toggle_files_button.style.display = "block";
 
 
     for (let i = 0; i < localStorage.length; i++) {
@@ -337,11 +332,6 @@ function start() {
         return;
     }
 
-    pre_shown = shown;
-    if (shown === true) {
-        toggle_files();
-    }
-
 
     ask_div.style.display = "flex";
     if (questions_type === "write") {
@@ -361,10 +351,6 @@ function start() {
 }
 
 document.getElementById("quit_lesson").addEventListener("click", () => {
-    if (pre_shown === true) {
-        shown === false;
-        toggle_files();
-    }
     
     if (!(ask_div.querySelector("#reveal") === null)) {
         ask_div.removeChild(ask_div.querySelector("#reveal"));
@@ -420,10 +406,6 @@ function check_input(reveal, next, def) {
 function askQuestion() {
 
     if (about_ask.length === asked.length) {
-        if (pre_shown === true) {
-            shown === false;
-            toggle_files();
-        }
 
         if (questions_type === "write") {
             asking.className = "hide";
@@ -619,10 +601,20 @@ function askQuestion() {
                     show("Ta réponse était : <br>\"" + user_answer + "\"<br> La bonne réponse était : <br> \"" + def + "\"");
                     let accept = document.createElement("button");
                     accept.innerText = "Ma réponse est bonne";
+                    if (toggle_t === true) {
+                        accept.style.color = "white";
+                    } else {
+                        accept.style.color = "black";
+                    }
                     accept.id = "accept";
                     ask_div.appendChild(accept);
                     let refuse = document.createElement("button");
                     refuse.innerText = "Ma réponse est fausse";
+                    if (toggle_t === true) {
+                        refuse.style.color = "white";
+                    } else {
+                        refuse.style.color = "black";
+                    }
                     refuse.id = "refuse";
                     ask_div.appendChild(refuse);
 
@@ -908,27 +900,6 @@ function show(message) {
 }
 
 
-
-function toggle_files() {
-    const files = document.querySelectorAll(".file");
-    const h2 = document.getElementById("lessons");
-
-    if (shown === true) {
-        shown = false;
-        files.forEach(f => f.style.display = "none");
-        h2.style.display = "none";
-        toggle_files_button.innerText = "Montrer les leçons";
-    } else {
-        shown = true;
-        files.forEach(f => f.style.display = "block");
-        h2.style.display = "block";
-        toggle_files_button.innerText = "Cacher les leçons";
-    }
-}  
-
-
-
-
 function wash(text) {
     let washed = text;
     washed = washed.toLowerCase();
@@ -940,7 +911,7 @@ function wash(text) {
 }
 
 
-function exporting() {
+/*function exporting() {
     let total = "";
     for (let i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i).startsWith("color") || localStorage.key(i).startsWith("text_color") || localStorage.key(i).startsWith("-sb")) {
@@ -1034,7 +1005,7 @@ function downloadString(str) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     name.value = "";
-}
+}*/
 
 
 
@@ -1087,6 +1058,26 @@ function choose(element) {
         create.style.display = "none";
         add.style.display = "none";
         ask.style.display = "flex";
+    }
+}
+
+function choose_help(element) {
+    let first_button = document.getElementById("choosing_help1");
+    let second_button = document.getElementById("choosing_help2");
+    let first = document.getElementById("help_1");
+    let second = document.getElementById("help_2");
+
+    if (element === "1") {
+        first_button.style.textDecoration = "underline";
+        second_button.style.textDecoration = "none";
+        first.style.display = "block";
+        second.style.display = "none";
+    }
+    if (element === "2") {
+        first_button.style.textDecoration = "none";
+        second_button.style.textDecoration = "underline";
+        first.style.display = "none";
+        second.style.display = "block";
     }
 }
 

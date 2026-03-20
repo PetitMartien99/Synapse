@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.10.2</h3></div>
+        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.11.3</h3></div>
         <p id="connection"></p>
 
         <div id="sign_div">
@@ -43,7 +43,7 @@
             </div>
 
             <div id="ultra_container"></div>
-            <h1 id="special_h1">Gérer les sessions du compte</h1>
+            <h1 id="special_h1">Compte</h1>
 
             <div id="changing_div">
                 <div id="create_session_div">
@@ -56,7 +56,7 @@
                 <div id="add_data_div">
                     <h2 id="add_data_h3">Ajouter le pack de leçons actuel</h2>
                     <input placeholder="Nom de la session" id="add_data_input">
-                    <p id="danger_export">Note: (Si le pack actuel contient une leçon <br>dont le nom est déjà présent dans la session <br>sélectionnée, ladite leçon de la session sera supprimée)</p>
+                    <p id="danger_export">Note: (Si il y a un doublon, la leçon <br>venant du pack aura la priorité)</p>
                     <p id="add_data_p"></p>
                     <button disabled="true" id="add_data_button">Ajouter</button>
                 </div>
@@ -90,6 +90,7 @@
         <p id="giga_msg"></p>
 
         <div id="parameter_div">
+            <button onclick="parameter()" id="close_parameter">X</button>
             <h2>Paramètres</h2>
             <p>Couleur: <input type="color" id="color"></p>
             <button id="toggle_text" onclick="toggle_text_f()">Texte en blanc</button>

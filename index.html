@@ -11,7 +11,7 @@
     <body> 
         <div id="mobile_up"></div>
         <div id="mobile_down"></div>
-        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.10.2</h3></div>
+        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.11.3</h3></div>
         <div id="ultra_container">
             <p></p>
             <div id="contain_choose">
@@ -76,7 +76,7 @@
         <p id="giga_msg"></p>
 
 
-        <div id="import_export">
+        <!--Truc que je remettrai peut être un jour<div id="import_export">
             <h2>Import/Export</h2>
 
             <input id="file_input" placeholder="Nom du fichier">
@@ -85,13 +85,13 @@
             <label id="for_file" for="file">Sélectionnez le fichier à importer</label>
             <input id="file" accept=".txt" type="file">  
             <button onclick="decode()">Import</button>
-        </div>
+        </div>-->
 
         <div id="parameter_div">
+            <button onclick="parameter()" id="close_parameter">X</button>
             <h2>Paramètres</h2>
             <p>Couleur: <input type="color" id="color"></p>
             <button id="toggle_text" onclick="toggle_text_f()">Texte en blanc</button>
-            <button id="toggle" onclick="toggle_files()">Cacher les leçons</button>
             <div id="parameter_sound">
                 <input type="checkbox" id="toggle_sound" onclick="toggle_sound()">
                 <label id="for_toggle_sound" for="toggle_sound">Effets sonores</label>
@@ -99,22 +99,51 @@
         </div>
 
         <div id="help_div">
+            <button onclick="help()" id="close_help">X</button>
             <h2>Aide</h2>
-            <p>On peut créer des leçons, qui peuvent contenir des définitions, des dates ou encore des égalités.</p>
-            <h3>Enregistrement</h3>
-            <ul>
-                <li>
-                    <p>Pour enregistrer l'ensemble des leçons actuelles (ce qu'on appelle le pack de leçons), on peut les télécharger sous forme de fichier .txt via l'interface Import/Export.</p>  
-                    <p>Pour accéder à un pack de leçons stockée sous forme de fichier .txt, il suffit de, dans l'interface Import/Export, sélectionner le fichier, puis de cliquer sur importer. </p>
-                </li>
-               <li>
-                <p>Une autre solution d'enregistrement consiste à créer un compte dans la page Compte, y créer une ou plusieurs sessions, et y enregistrer le pack de leçons actuel. Il suffira ensuite de se connecter pour avoir accès à toutes ses sessions. </p>
-                <p>Pour accéder à une session stockée dans le compte, il faut se rendre sur la page Compte, se connecter si on ne l'est pas déjà, sélectionner la session et cliquer sur importer.</p>
-                </li>
-            </ul>
-            <p>Attention : importer une session effacera le pack de leçons actuellement chargé.</p>
-            <p>Enfin, on peut se faire interroger : attention, le mode Restitution Écrite nécessite de taper la définition correctement, sans reformuler ou changer les mots.</p>
-            <p>Si vous rencontrez un bug, signalez-le au créateur du site (Alban).</p>
+            <strong>En résumé :</strong>
+                <ol>
+                    <li>Tu bosses sur l'Accueil.</li>
+                    <li>Tu stockes dans ton Compte.</li>
+                    <li>Tu récupères tes archives quand tu changes de matière.</li>
+                </ol> 
+            
+            <div id="choosing_help">
+                <button onclick="choose_help('1')" id="choosing_help1">Accueil</button>
+                <button onclick="choose_help('2')"id="choosing_help2">Compte</button>
+            </div>
+            <p>
+                <div id="help_1"><h4>PAGE : L'ACCUEIL</h4>
+                C'est ton "établi" : là où tu crées, tu modifies et tu révises tes leçons en direct.<br>
+                <ul>
+                    <li>Le "Pack de Leçons" : C'est ce que tu as "sous la main". Tes données y restent même si tu fermes l'onglet.</li>
+                    <li>Onglet "Créer une leçon" : Tu donnes un titre (ex: 1ère Guerre Mondiale) pour organiser tes futures fiches.</li>
+                    <li>Onglet "Ajouter" : Tu remplis ta leçon avec 3 types de contenus :
+                        <ul>
+                            <li>Définitions (Concept : Explication)
+                            <li>Dates (Année : Évènemment)
+                            <li>Égalités (Formule A : Formule B)
+                        </ul>
+                    </li>
+                    <li>
+                        Onglet "S'interroger" : Choisis une leçon et lance un test.
+                        <ul>
+                            <li>4 Modes : QCM, Vrai/Faux, Écrit...</li>
+                            <li>Mode Conseillé : L'Auto-validation. Tu réponds, tu vérifies, et tu décides si tu as le point. Le top pour apprendre vite.</li>
+                        </ul>
+                    </li>
+                </ul></div>
+                <div id="help_2"><h4>PAGE : LE COMPTE</h4>
+                C'est ton "archiveur" : là où tu sauvegardes tes cours sur le cloud pour ne jamais les perdre.
+                <ul>
+                    <li>La "session" : C'est un dossier permanent (ex: Session SVT ou Session Maths).</li>
+                    <li>Créer une session : Prépare un grand tiroir vide dans ton compte.</li>
+                    <li>Ajouter le pack actuel : Envoie tout ce qui est sur ta page d'accueil dans une session choisie.</li>
+                        Note : Si une leçon existe déjà dans la session, elle est mise à jour avec tes nouveaux ajouts.
+                    <li>Importer une session : Récupère une session enregistrée et remplace ton pack actuel par elle.</li>
+                        Attention : Cela écrase ton travail en cours sur l'accueil, donc si tu veux le garder, enregistre le avant !
+                </ul></div>   
+                </p>
         </div>
 
         <div id="help_cover"></div>

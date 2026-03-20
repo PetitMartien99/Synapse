@@ -25,6 +25,8 @@ let parameter_toggle = false;
 let sonor_effects = false;
 
 
+document.getElementById("inline").querySelector("h3").innerText = "Version 3.11.6";
+
 if (localStorage.getItem("text_color") === null) {
     localStorage.setItem("text_color", "black");
 }
@@ -77,6 +79,10 @@ function actu_color() {
             }
             document.querySelectorAll("li").forEach((i) => {i.style.color = localStorage.getItem("text_color")});
             parameter_div.style.border = "solid 1px " + localStorage.getItem("text_color");
+
+            if (!(document.getElementById("help") === null)) {
+                document.getElementById("help").style.border = "solid 2px " + localStorage.getItem("text_color");
+            }
 
             if (document.getElementById("account_small") != undefined) {
                 document.getElementById("account_small").style.border = "1px solid " + localStorage.getItem("text_color");
