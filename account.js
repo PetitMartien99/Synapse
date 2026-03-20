@@ -312,21 +312,18 @@ async function sign_up() {
         email: mail_input.value,
         password: password_input.value,
     });
-
-    update();
-
+    
+    mail_input.value = "";
+    password_input.value = "";
+    signup_message.innerHTML = "Un mail a été envoyé <br> à l'addresse mail <br> renseignée. Cliquez sur le lien, puis revenez sur Synapse et connectez vous.";
     if (error) {
         console.log(error.name);
         console.log(error.code);
         if (error.code === "email_address_invalid") {
             signup_message.innerHTML = "Addresse mail invalide";
         }
-    } else {
-        signup_message.innerHTML = "Un mail a été envoyé <br> à l'addresse mail <br> renseignée";
-        mail_input.value = "";
-        password_input.value = "";
     }
-
+    update();
 }
 
 

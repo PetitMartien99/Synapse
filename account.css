@@ -163,7 +163,13 @@ button:disabled {
     font-size: 22px;
 }
 
+#note_sign_up {
+    margin-bottom: 5px;
+}
 
+#signup_message {
+    margin-bottom: -5px;
+}
 
 #changing_div {
     display: flex;
