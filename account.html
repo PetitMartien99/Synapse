@@ -9,7 +9,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.11.3</h3></div>
+        <div id="inline"><h1>Synapse</h1><h3 style="letter-spacing: 1px;">Version 3.12.1</h3></div>
+        <div id="mobile_up"></div>
+        <div id="mobile_down"></div>
         <p id="connection"></p>
 
         <div id="sign_div">
@@ -37,15 +39,23 @@
         </div>
 
         <div id="account_div">
+            <button id="see_account_small"><img src="compte.png"></button>
+            <button id="import_3_button"><img src="import.png"></button>
+
             <div id="account_small">
+                <button id="close_account_small">X</button>
                 <p id="mail_address"></p>
                 <button id="signout">Se déconnecter</button>
-                <button id="delete_account">Demander la suppression<br> du compte</button>
+                <button id="delete_account">Demander la suppression du compte</button>
             </div>
 
             <div id="ultra_container"></div>
             <h1 id="special_h1">Compte</h1>
-
+            <div id="choosing_stuff">
+                <button id="choosing_create">Créer</button>
+                <button id="choosing_add">Ajouter</button>
+                <button id="choosing_import">Importer</button>
+            </div>
             <div id="changing_div">
                 <div id="create_session_div">
                     <h2 id="create_session_h3">Créer une nouvelle session</h2>
@@ -57,7 +67,7 @@
                 <div id="add_data_div">
                     <h2 id="add_data_h3">Ajouter le pack de leçons actuel</h2>
                     <input placeholder="Nom de la session" id="add_data_input">
-                    <p id="danger_export">Note: (Si il y a un doublon, la leçon <br>venant du pack aura la priorité)</p>
+                    <p id="danger_export">Note: (Si il y a un doublon, la leçon venant du pack aura la priorité)</p>
                     <p id="add_data_p"></p>
                     <button disabled="true" id="add_data_button">Ajouter</button>
                 </div>
@@ -65,7 +75,7 @@
                 <div id="import_data_div">
                     <h2 id="import_data_h3">Ouvrir une session</h2>
                     <input placeholder="Nom de la session" id="import_data_input">
-                    <p id="danger_import">Note: (Si le pack actuel n'a pas été <br>enregistré, il sera supprimé)</p>
+                    <p id="danger_import">Note: (Si le pack actuel n'a pas été enregistré, il sera supprimé)</p>
                     <p id="import_data_p"></p>
                     <button disabled="true" id="import_data_button">Ouvrir </button>
                 </div>
@@ -78,6 +88,7 @@
             </div>
 
             <div id="see_3_connected">
+                <button id="close_import">X</button>
                 <h2>Defs de 3ème</h2>
                 <p>Note : Si vous avez des sessions appelées Maths, Français, Technologie, Physique, SVT ou Histoire, les sessions de 3ème correspondantes ne seront pas importées.</p>
                 <button id="see_defs_3_connected">Importer les defs</button>

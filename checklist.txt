@@ -2,13 +2,11 @@
 - Mettre une limite de taille
 - VERBES IRREGULIERS
 - Choisir la longueur d'interrogation
-- Update le help quand on est sur téléphone (enlever l'indication d'import/export)
-- Que cliquer sur parameter_cover ferme paramètre
-- Enlever les éventuels points dans torf
+- Que cliquer sur parameter_cover ferme paramètre + autres
 - Logos sur defs pour qu'on sache lesquelles c'est
 - Particules;
 - Mode d'interrogation : relier les réponses;
-- Actualiser les anciennes saves avec du JSON
-- Sauvegarder des images
+- Mettre des animations sur mobile account import et account small
 - RESPONSIVE
 - Supprimer le compte (table de requests)
+- Adapter aux tablettes

@@ -13,6 +13,8 @@ const signup_message = getID("signup_message");
 let user_let;
 let opened_sessions = new Set();
 let whole_data = null; 
+let toggle_account_small = true;
+let toggle_import_3 = true;
 
 
 getID("see_defs_3").addEventListener("click", see_3_unconnected);
@@ -72,7 +74,7 @@ async function see_3_unconnected() {
                 let new_li = document.createElement("li");
                 if (item.kind === "egal") new_li.innerHTML = item.title + " = " + item.def;
                 else {
-                    new_li.innerHTML = "<div class='titles'>" + item.title + "</div> : " + item.def;
+                    new_li.innerHTML = "<div class='titles'>" + item.title + " :</div> " + item.def;
                 }
 
 
@@ -168,6 +170,7 @@ async function update() {
 
         see_profile();
     } else {
+        document.getElementById("parameter_cover").style.display = "none";
         document.querySelector("#connection").innerText = "not connected";
         getID("sign_div").style.display = "block";
         getID("account_div").style.display = "none";
@@ -438,7 +441,7 @@ async function see_profile() {
                 let new_li = document.createElement("li");
                 if (item.kind === "egal") new_li.innerHTML = item.title + " = " + item.def;
                 else {
-                    new_li.innerHTML = "<div class='titles'>" + item.title + "</div> : " + item.def;
+                    new_li.innerHTML = "<div class='titles'>" + item.title + " :</div> " + item.def;
                 }
 
                 new_li.dataset.session = session.name;
@@ -507,6 +510,7 @@ function check_import() {
     const message = getID("import_data_p");
 
     if (import_data_input.value === "") {
+        button.disabled = true;
         return;
     }
 
@@ -639,6 +643,7 @@ function check_add() {
     const message = getID("add_data_p");
 
     if (name_input.value === "") {
+        button.disabled = true;
         return;
     }
 
@@ -747,6 +752,7 @@ function check_create() {
 
     if (input.value === "") {
         return;
+        button.disabled = true;
     }
         
 
@@ -802,5 +808,91 @@ async function create_session() {
         getID("create_session_p").style.display = "block";
         getID("create_session_p").innerHTML = "Session ajoutée";
         see_profile();
+    }
+}
+
+
+document.getElementById("choosing_create").addEventListener("click", () => {
+    choose_account("create");
+});
+document.getElementById("choosing_add").addEventListener("click", () => {
+    choose_account("add");
+});
+document.getElementById("choosing_import").addEventListener("click", () => {
+    choose_account("import");
+});
+
+function choose_account(element) {
+    let create_button = document.getElementById("choosing_create");
+    let add_button = document.getElementById("choosing_add");
+    let import_button = document.getElementById("choosing_import");
+    let create = document.getElementById("create_session_div");
+    let add = document.getElementById("add_data_div");
+    let import_div = document.getElementById("import_data_div");
+
+    if (element === "create") {
+        create_button.style.textDecoration = "underline";
+        add_button.style.textDecoration = "none";
+        import_button.style.textDecoration = "none";
+        create.style.display = "flex";
+        add.style.display = "none";
+        import_div.style.display = "none";
+    }
+    if (element === "add") {
+        create_button.style.textDecoration = "none";
+        add_button.style.textDecoration = "underline";
+        import_button.style.textDecoration = "none";
+        create.style.display = "none";
+        add.style.display = "flex";
+        import_div.style.display = "none";
+    }
+    if (element === "import") {
+        create_button.style.textDecoration = "none";
+        add_button.style.textDecoration = "none";
+        import_button.style.textDecoration = "underline";
+        create.style.display = "none";
+        add.style.display = "none";
+        import_div.style.display = "flex";
+    }
+}
+
+
+document.getElementById("see_account_small").addEventListener("click", () => {
+    account_small()
+});
+
+document.getElementById("close_account_small").addEventListener("click", () => {
+    account_small()
+});
+
+function account_small() {
+    if (toggle_account_small === true) {
+        toggle_account_small = false;
+        document.getElementById("account_small").style.display = "flex";
+        document.getElementById("parameter_cover").style.display = "block";
+    } else {
+        toggle_account_small = true;
+        document.getElementById("account_small").style.display = "none";
+        document.getElementById("parameter_cover").style.display = "none";
+    }
+}
+
+document.getElementById("import_3_button").addEventListener("click", () => {
+    import_div()
+});
+
+document.getElementById("close_import").addEventListener("click", () => {
+    import_div()
+});
+
+function import_div() {
+    if (toggle_import_3 === true) {
+        toggle_import_3 = false;
+        document.getElementById("see_3_connected").style.display = "flex";
+        document.getElementById("parameter_cover").style.display = "block";
+    } else {
+        toggle_import_3 = true;
+        document.getElementById("see_3_connected").style.display = "none";
+        document.getElementById("parameter_cover").style.display = "none";
     }
 }

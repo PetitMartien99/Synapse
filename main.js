@@ -507,8 +507,14 @@ function askQuestion() {
         if (getRandom(0, 2) === 1) {
             torf_var = "Vrai";
             if (interrogation_side === 1) {
+                if (title[title.length - 1] === ".") {
+                    title = title.slice(0, -1);
+                }
                 show(title + " : " + def);
             } else {
+                if (def[def.length - 1] === ".") {
+                    def = def.slice(0, -1);
+                }
                 show(def + " : " + title);
             }       
         } else {
@@ -910,102 +916,6 @@ function wash(text) {
     return washed;
 }
 
-
-/*function exporting() {
-    let total = "";
-    for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).startsWith("color") || localStorage.key(i).startsWith("text_color") || localStorage.key(i).startsWith("-sb")) {
-            continue;
-        }
-        if (i != 0) {
-            total += "#";
-        }
-        total += localStorage.key(i);
-        total += "?";
-        total += localStorage.getItem(localStorage.key(i));
-    } 
-    
-    downloadString(total, "data.txt");
-}
-
-
-document.getElementById("file").addEventListener("change", () => {
-    if (document.getElementById("file").value != "") {
-        document.getElementById("for_file").innerText = "Fichier sélectionné";
-    } else {
-        document.getElementById("for_file").innerText = "Sélectionnez le fichier à importer";
-    }
-});
-
-
-function decode() {
-    const fileInput = document.getElementById("file"); 
-    const file = fileInput.files[0];
-    if (!file) return console.log("Aucun fichier sélectionné !");
-    fileInput.value = "";
-    document.getElementById("for_file").innerText = "Sélectionnez le fichier à importer";
-
-    for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).split(";")[0] === "color") {
-            console.log("nope"); 
-        } else if (localStorage.key(i).split(";")[0] === "text_color") {
-            console.log("nope"); 
-        } else if (localStorage.key(i).split(";")[0].startsWith("sb-")) {
-            console.log("nope");
-        } else {
-            localStorage.removeItem(localStorage.key(i));
-        }
-    }
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        const total = event.target.result; 
-
-        let packs_hash = total.split("#"); 
-        for (let i = 0; i < packs_hash.length; i++) { 
-            let lesson_hash = packs_hash[i].split("?");
-            console.log(lesson_hash);
-            let title_pack = lesson_hash[0];
-
-            if (title_pack === "color") {
-                let safe = "#" + lesson_hash[1];
-                localStorage.setItem(title_pack, safe);
-            } else {
-                localStorage.setItem(title_pack, lesson_hash[1]);
-            }
-        } 
-        setTimeout(() => {
-            actu_files();
-            actu_color();
-        }, 50);
-            
-        
-        console.log("Import terminé !");
-    };
-
-    reader.readAsText(file); 
-}
-
-
-
-function downloadString(str) {
-    const name = document.getElementById("file_input");
-    let filename;
-    if (name.value !== "") {
-        filename = name.value + ".txt";
-    } else {
-        return;
-    }
-    const blob = new Blob([str], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    name.value = "";
-}*/
 
 
 

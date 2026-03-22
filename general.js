@@ -25,7 +25,7 @@ let parameter_toggle = false;
 let sonor_effects = false;
 
 
-document.getElementById("inline").querySelector("h3").innerText = "Version 3.11.7";
+document.getElementById("inline").querySelector("h3").innerText = "Version 3.12.1";
 
 if (localStorage.getItem("text_color") === null) {
     localStorage.setItem("text_color", "black");
@@ -58,6 +58,12 @@ function actu_color() {
             if (!(document.getElementById("mobile_down") === null)) {
                 document.getElementById("mobile_down").style.backgroundColor = color_safe;
             }
+            if (!(document.getElementById("account_small") === null)) {
+                document.getElementById("account_small").style.backgroundColor = color_safe;
+            }
+            if (!(document.getElementById("see_3_connected") === null)) {
+                document.getElementById("see_3_connected").style.backgroundColor = color_safe;
+            }
             if (document.getElementById("help_div")) {
                 document.getElementById("help_div").style.backgroundColor = color_safe;
                 document.getElementById("help_div").style.border = "solid 1px " + localStorage.getItem("text_color");
@@ -87,6 +93,9 @@ function actu_color() {
             if (document.getElementById("account_small") != undefined) {
                 document.getElementById("account_small").style.border = "1px solid " + localStorage.getItem("text_color");
             }
+            if (document.getElementById("see_3_connected") != undefined && document.getElementById("see_3_connected").style.border.startsWith("1px solid")) {
+                document.getElementById("see_3_connected").style.border = "1px solid " + localStorage.getItem("text_color");
+            }
             if (document.querySelectorAll(".session_div").length != 0) {
                 document.querySelectorAll(".session_div").forEach((e) => {e.style.border = "2px solid " + localStorage.getItem("text_color")});
             }
@@ -97,17 +106,9 @@ function actu_color() {
             if (localStorage.getItem("text_color") === "white") {
                 toggle_t = true;
                 toggle_text.innerText = "Texte en noir";
-                if (!document.getElementById("for_file") === null) {
-                    document.getElementById("for_file").classList.remove("black_hover");
-                    document.getElementById("for_file").classList.add("white_hover");
-                }
             } else {
                 toggle_t = false;
                 toggle_text.innerText = "Texte en blanc";
-                if (!document.getElementById("for_file") === null) {
-                    document.getElementById("for_file").classList.remove("white_hover");
-                    document.getElementById("for_file").classList.add("black_hover");  
-                }
             }
         }
     }, 30);
@@ -135,7 +136,7 @@ function getPack(baseName) {
         let key = localStorage.key(i);
         if (key.startsWith(baseName + ";")) {
             return key;
-        }
+        }   
     }
     return null;
 }
@@ -174,6 +175,12 @@ color.addEventListener("input", () => {
         }
         if (!(document.getElementById("mobile_down") === null)) {
             document.getElementById("mobile_down").style.backgroundColor = color.value;
+        }
+        if (!(document.getElementById("account_small") === null)) {
+            document.getElementById("account_small").style.backgroundColor = color.value;
+        }
+        if (!(document.getElementById("see_3_connected") === null)) {
+            document.getElementById("see_3_connected").style.backgroundColor = color.value;
         }
         let safe_color = color.value.replace("#", "");
         localStorage.setItem("color", safe_color);

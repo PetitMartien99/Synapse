@@ -32,6 +32,21 @@
     margin: 20px;
 }
 
+@media screen and (width <= 450px) {
+    #signin_div {
+        margin-top: 50px;
+        margin-bottom: -20px;
+    }
+
+    #signin_div button {
+        margin-bottom: 30px;
+    }
+
+    #signup_div {
+        margin-top: 0;
+    }
+}
+
 #see_3_connected {
     display: flex;
     flex-direction: column;
@@ -131,6 +146,17 @@ button:disabled {
     width: 55px;
 }
 
+@media screen and (width <= 450px) {
+    #back_to_homepage {
+        bottom: 55px;
+        right: 4px;
+        z-index: 80;
+    }
+
+    #back_to_homepage img {
+        width: 43px;
+    }
+}
 
 #connection {
     display: none;
@@ -152,11 +178,17 @@ button:disabled {
     border-left: 1px solid black;
     border-bottom: 1px solid black;
     border-bottom-left-radius: 10px;
-    z-index: 2;
+    z-index: 113;
 }
 
 #account_small:hover {
     transform: scale(1.03);
+}
+
+@media screen and (width <= 450px) {
+    #see_3_connected, #account_small {
+        display: none;
+    }
 }
 
 #mail_address {
@@ -200,6 +232,13 @@ button:disabled {
     transform: scale(1.03);
 }
 
+#danger_import, #danger_export {
+    max-width: 300px;
+}
+
+#choosing_stuff {
+    display: none;
+}
 
 #special_h1 {
     font-size: 30px;
@@ -210,6 +249,43 @@ button:disabled {
     transform: translate(-50%, 0); 
     z-index: 2;
 }
+
+@media screen and (width <= 450px) {
+    #choosing_stuff {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        z-index: 80;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        margin-bottom: 0;
+    }
+
+    #choosing_create {
+        text-decoration: underline;
+    }
+
+    #import_data_div, #add_data_div {
+        display: none;
+    }
+
+    #special_h1 {
+        display: none;
+    }
+
+    #add_data_p, #import_data_p {
+        margin: 0;
+        margin-top: -10px;
+    } 
+
+    #see_data_div_id h2 {
+        top: 370px;
+    }
+}
+
 
 .session_div h3 {
     display: inline;
@@ -245,6 +321,98 @@ li {
     transition: transform 0.5s ease-in-out, color 0.5s;
 }
 
+#mobile_up, #mobile_down, #account_small, #see_3_connected {
+    background-color: rgb(106, 239, 124);
+}
+
+#see_account_small, #close_account_small, #import_3_button, #close_import {
+    display: none;
+}
+
+@media screen and (width <= 450px) {
+    #close_account_small {
+        display: block;
+    }
+
+    li {
+        font-size: 17px;
+        flex-direction: column;  
+    }
+
+    #mobile_up {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        z-index: 70;
+    }
+
+    #mobile_down {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 50px;
+        height: 100px;
+        z-index: 70;
+        border-top-left-radius: 8px;
+    }
+
+    #see_account_small {
+        display: block;
+        position: fixed;
+        top: 0px;
+        right: -4px;
+        z-index: 114;
+    }
+
+    #account_small, #see_3_connected {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        padding: 10px;
+        width: fit-content;
+        transition: border 0.5s;
+    }
+
+    #account_small:hover, #see_3_connected:hover {
+        transform: translate(-50%, -50%);
+    }
+
+    #import_3_button {
+        display: block;
+        position: fixed;
+        top: 52px;
+        right: -4px;
+        z-index: 114;
+    }
+
+    #see_account_small img, #import_3_button img {
+        width: 43px;
+    }
+
+    #close_account_small, #close_import {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    #see_3_connected {
+        text-align: center;
+        border: 1px solid black;
+        border-radius: 10px;
+        z-index: 114;
+        justify-content: center;
+        align-items: center;
+        height: 300px;
+    }
+
+    #see_3_connected p {
+        width: 300px;
+    }
+}
+
 li:hover {
     transform: scale(1.03);
 }
@@ -253,4 +421,8 @@ li:hover {
     font-size: 15px;
     align-self: flex-start;
     margin-top: -2px;
+}
+
+#delete_account {
+    width: 240px;
 }
