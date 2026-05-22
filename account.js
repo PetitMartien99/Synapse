@@ -38,6 +38,10 @@ if (params.has("veTr3")) {
     redirect(6);
 }
 
+if (params.has("veTr4")) {
+    redirect(8);
+}
+
 
 if (params.has("vaEr3")) {
     redirect(7);
@@ -272,7 +276,8 @@ async function see_3_connected() {
 
 
 
-   let correct_data = data[0].json_data;
+    let correct_data = data[0].json_data;
+    let global_test = false;
     correct_data.forEach((i) => {
         let test = false;
         whole_data.forEach((e) => {
@@ -282,6 +287,7 @@ async function see_3_connected() {
         });
         if (!test) {
             whole_data.push(i);
+            global_test = true;
         }
     });
     const { error: err } = await supabase
@@ -289,7 +295,7 @@ async function see_3_connected() {
     .update({ json_data: whole_data })
     .eq('uid', user_let.id);
     see_profile();
-    import_div();
+    if (getID("see_3_connected").style.top === "50%" && global_test) import_div();
 }
 
 

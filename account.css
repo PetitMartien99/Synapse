@@ -112,6 +112,7 @@ body {
     left: 5px;
     bottom: 0px;
     width: 350px;
+    padding-right: 5px;
     transition: opacity 0.3s;
     border-radius: 0 10px 0 0;
 }
@@ -429,6 +430,16 @@ li {
     display: none;
 }
 
+#mobile_down {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 70;
+    height: 130px;
+    width: 65px;
+    border-top-left-radius: 8px;
+}
+
 
 .delete_lesson:hover {
     top: -3px;
@@ -554,16 +565,6 @@ li {
         right: 0;
         height: 50px;
         z-index: 70;
-    }
-    
-    #mobile_down {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        z-index: 70;
-        height: 130px;
-        width: 65px;
-        border-top-left-radius: 8px;
     }
     
     #see_account_small {

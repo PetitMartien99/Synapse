@@ -1280,7 +1280,16 @@ function askQuestion() {
             };
         };
     } else if (questions_type === "auto") {
-        reveal.onclick = () => {
+        reveal.onclick = reveal_it;
+        document.addEventListener("keydown", pre_revealing);
+        function pre_revealing(e) {
+            if (e.key === "Enter") {
+                reveal_it();
+            }
+        }
+        function reveal_it() {
+            document.removeEventListener("keydown", pre_revealing);
+
             if (asking.value !== "") {
                 let user_answer = asking.value;
                 asking.value = "";
@@ -1352,7 +1361,19 @@ function askQuestion() {
             }
         };
     } else if (questions_type === "random" || questions_type === "choice") {
-        reveal.onclick = () => {
+        reveal.onclick = reveal_it;
+        document.addEventListener("keydown", pre_revealing);
+        function pre_revealing(e) {
+            if (e.key === "Enter") {
+                console.log("key");
+                document.removeEventListener("keydown", pre_revealing);
+                reveal_it();
+            }
+        }
+
+        function reveal_it() {
+            document.removeEventListener("keydown", pre_revealing);
+
             let the_row = about_ask[question_id];
             let all_correct = true;
             let row = document.createElement("div");
@@ -1944,3 +1965,37 @@ function get_pdf(html_editor) {
     win.document.close();
     win.print();
 }*/
+
+/*Allez : juste pour les 2000 !!!!!!*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*LETTTSSSS GOOOOOOOO*/

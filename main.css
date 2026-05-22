@@ -411,6 +411,7 @@ body {
     width: 63px;
     height: 127px;
     border-top-left-radius: 8px;
+    z-index: 70;
 }
 
 #mobile_up {
@@ -760,12 +761,6 @@ body {
 
     .beetween {
         display: none;
-    }
-}
-
-@media screen and (max-width: 1500px) {
-    #mobile_down {
-        z-index: 70;
     }
 }
 
