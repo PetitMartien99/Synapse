@@ -42,6 +42,9 @@ if (params.has("veTr4")) {
     redirect(8);
 }
 
+if (params.has("veMu4")) {
+    redirect(9);
+}
 
 if (params.has("vaEr3")) {
     redirect(7);

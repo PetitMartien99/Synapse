@@ -412,10 +412,7 @@ async function lesson_ending(details) {
 
     const info = structuredClone(user_data.Informations);
 
-    const today = new Date();
-
-    console.log("Today RAW :", today);
-    console.log("Today ISO :", today.toISOString());
+    const today = getTodayString();
 
     // --- INIT SAFE ---
     let streak = info.streak ?? 0;
@@ -424,13 +421,9 @@ async function lesson_ending(details) {
     console.log("Streak initiale :", streak);
     console.log("Skips initiaux :", skips);
 
-    let lastAction = info.last_action_date
-        ? new Date(info.last_action_date)
-        : null;
+    let lastAction = info.last_action_date || null;
 
-    let lastSkipReward = info.last_skip_reward
-        ? new Date(info.last_skip_reward)
-        : null;
+    let lastSkipReward = info.last_skip_reward || null;
 
     console.log("last_action_date DB :", info.last_action_date);
     console.log("lastAction parsed :", lastAction);
@@ -440,9 +433,13 @@ async function lesson_ending(details) {
 
     // --- WEEKLY SKIP ---
     if (lastSkipReward) {
-
+        console.log("lastAction =", lastAction, typeof lastAction);
+        console.log("today =", today, typeof today);
         const diffWeeks = Math.floor(
-            (today - lastSkipReward) / (1000 * 60 * 60 * 24 * 7)
+            (
+                dayStringToNumber(today) -
+                dayStringToNumber(lastSkipReward)
+            ) / 7
         );
 
         console.log("Diff semaines :", diffWeeks);
@@ -476,19 +473,10 @@ async function lesson_ending(details) {
 
     } else {
 
-        const todayDate = new Date(today);
-        todayDate.setHours(0, 0, 0, 0);
+        const diffDays =
+            dayStringToNumber(today) -
+            dayStringToNumber(lastAction);
 
-        const lastDate = new Date(lastAction);
-        lastDate.setHours(0, 0, 0, 0);
-
-        const diffMs = todayDate - lastDate;
-
-        const diffDays = Math.floor(
-            diffMs / (1000 * 60 * 60 * 24)
-        );
-
-        console.log("Diff ms :", diffMs);
         console.log("Diff jours :", diffDays);
 
         // même jour
@@ -532,10 +520,7 @@ async function lesson_ending(details) {
                 await give_achievement("coeur_brise", ACHIEVEMENTS.coeur_brise);
             }
 
-            const fixedDate = new Date(today);
-            fixedDate.setDate(fixedDate.getDate() - 1);
-
-            lastAction = fixedDate;
+            lastAction = today;
         }
     }
 
@@ -545,8 +530,8 @@ async function lesson_ending(details) {
     // --- SAVE ---
     user_data.Informations.streak = streak;
     user_data.Informations.skips = skips;
-    user_data.Informations.last_action_date = today.toISOString();
-    user_data.Informations.last_skip_reward = lastSkipReward.toISOString();
+    user_data.Informations.last_action_date = today;
+    user_data.Informations.last_skip_reward = lastSkipReward;
 
     console.log("OBJET FINAL ENVOYÉ :", structuredClone(user_data.Informations));
 
@@ -578,6 +563,26 @@ async function lesson_ending(details) {
     console.log("===== FIN =====");
 }
 
+function getTodayString() {
+    const now = new Date();
+
+    return `${now.getFullYear()}-${
+        String(now.getMonth() + 1).padStart(2, "0")
+    }-${
+        String(now.getDate()).padStart(2, "0")
+    }`;
+}
+
+function dayStringToNumber(dayString) {
+    console.log(dayString, typeof dayString);
+
+    const [year, month, day] = dayString.split("-").map(Number);
+
+    return Math.floor(
+        Date.UTC(year, month - 1, day) / 86400000
+    );
+}
+
 /* ------- ACHIEVEMENTS DISPLAY LEADERBOARD -------- */
 
 function display_achievements(data) {
@@ -585,7 +590,12 @@ function display_achievements(data) {
         return;
     }
     console.log(data);
-    document.getElementById("total_achievements_p").innerHTML = Object.keys(data).length === 1 ? "<strong>" + Object.keys(data).length + "</strong> débloqué sur 49" : "<strong>" + Object.keys(data).length + "</strong> débloqués sur 49";
+    if (Object.keys(data).length < 50) {
+        document.getElementById("total_achievements_p").innerHTML = "<strong>" + Object.keys(data).length + "</strong> débloqués sur 49";
+    } else {
+        document.getElementById("total_achievements_p").innerHTML = "<strong>" + Object.keys(data).length + "</strong> débloqués sur 50";
+
+    }
 
     let total = document.getElementById("total_achievements_div");
     for (const key in ACHIEVEMENTS) {
@@ -784,18 +794,13 @@ async function update_streak_state() {
 
     const info = structuredClone(user_data.Informations);
 
-    const now = new Date();
+    const now = getTodayString();
 
     let streak = info.streak ?? 0;
     let skips = info.skips ?? 0;
 
-    let lastAction = info.last_action_date
-        ? new Date(info.last_action_date)
-        : null;
-
-    let lastSkipReward = info.last_skip_reward
-        ? new Date(info.last_skip_reward)
-        : null;
+    let lastAction = info.last_action_date || null;
+    let lastSkipReward = info.last_skip_reward || null;
 
     console.log("Streak :", streak);
     console.log("Skips :", skips);
@@ -829,15 +834,9 @@ async function update_streak_state() {
 
     } else {
 
-        const today = new Date(now);
-        today.setHours(0, 0, 0, 0);
-
-        const last = new Date(lastAction);
-        last.setHours(0, 0, 0, 0);
-
-        const diffDays = Math.floor(
-            (today - last) / (1000 * 60 * 60 * 24)
-        );
+        const diffDays =
+            dayStringToNumber(now) -
+            dayStringToNumber(lastAction);
 
         console.log("Diff jours :", diffDays);
 
@@ -870,11 +869,6 @@ async function update_streak_state() {
                 streak = 0; // ou 1 si tu préfères reset doux
             }
 
-            const fixedDate = new Date(today);
-            fixedDate.setDate(fixedDate.getDate() - 1);
-
-            lastAction = fixedDate;
-
             document.getElementById("link_info").innerText = "off";
         }
     }
@@ -882,8 +876,7 @@ async function update_streak_state() {
     // --- SAVE ---
     user_data.Informations.streak = streak;
     user_data.Informations.skips = skips;
-    user_data.Informations.last_action_date = lastAction;
-    user_data.Informations.last_skip_reward = lastSkipReward.toISOString();
+    user_data.Informations.last_skip_reward = lastSkipReward;
 
     // IMPORTANT :
     // on ne touche PAS last_action_date ici

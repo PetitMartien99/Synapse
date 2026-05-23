@@ -396,7 +396,6 @@ function actu_files() {
     document.getElementById("lessons").innerText = "Leçons ouvertes";
 
     let old_select_value = selects_lessons.options[selects_lessons.selectedIndex];
-    console.log(old_select_value);
     selects_lessons.innerHTML = "";
     let old_checked_inputs = [];
     pack_title_ask.querySelector("#menu").querySelectorAll("label").forEach((e) => {
@@ -1365,7 +1364,6 @@ function askQuestion() {
         document.addEventListener("keydown", pre_revealing);
         function pre_revealing(e) {
             if (e.key === "Enter") {
-                console.log("key");
                 document.removeEventListener("keydown", pre_revealing);
                 reveal_it();
             }

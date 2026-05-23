@@ -14,7 +14,7 @@ giga_msg.style.display = "none";
 let parameter_toggle = false;
 let sonor_effects = false;
 
-document.getElementById("inline").querySelector("h3").innerText = "v4.0.3.12 B.";
+document.getElementById("inline").querySelector("h3").innerText = "v4.0.5.15 B.";
 
 if (localStorage.getItem("text_color") === null) {
     localStorage.setItem("text_color", "black");
@@ -31,7 +31,6 @@ document.addEventListener("click", (e) => {
         e.target.classList.toggle("revealed");
     }
 });
-
 
 function actu_color() {
 
@@ -148,6 +147,23 @@ function playSound(name) {
 
 
 function toggleDropdown() {
+    document.removeEventListener("click", toggling_click);
+
     document.getElementById("menu").classList.toggle("hidden");
     document.getElementById("menu").classList.toggle("flex");
+
+    if (document.getElementById("menu").classList.contains("flex")) {
+        setTimeout(() => {
+            document.addEventListener("click", toggling_click);
+        }, 0);
+        console.log("flex");
+        
+    }
+}
+function toggling_click(e) {
+    console.log("click");
+        if (!document.getElementById("menu").contains(e.target)) {
+            document.removeEventListener("click", toggling_click);
+            toggleDropdown();
+        }
 }
