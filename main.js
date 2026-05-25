@@ -35,6 +35,7 @@ let about_ask;
 let interrogation_time;
 let questions_number;
 let right_answers;
+let wrong_answers_memory = 0;
 let right_answers_in_row = 0;
 let wrong_answers_in_row = 0;
 let time_stat; 
@@ -141,7 +142,7 @@ function toggle_ask_def() {
     if (!hasLessons) {
 
         pack_title_ask.style.display = "none";
-        document.getElementById("questions_type_select").style.display = "none";
+        questions_type_select.style.display = "none";
         document.getElementById("ask_length_input").style.display = "none";
         document.getElementById("ask_length").style.display = "none";
         document.getElementById("ask_button").style.display = "none";
@@ -150,7 +151,7 @@ function toggle_ask_def() {
         return;
     }
 
-    document.getElementById("questions_type_select").style.display = "inline";
+    questions_type_select.style.display = "inline";
     document.getElementById("ask_button").style.display = "block";
     pack_title_ask.style.display = "block";
 
@@ -158,7 +159,7 @@ function toggle_ask_def() {
 
     if (get_stuff.valid === false) {
         if (get_stuff.lessons.length === 0) {
-            document.getElementById("questions_type_select").style.display = "none";
+            questions_type_select.style.display = "none";
             document.getElementById("ask_length_input").style.display = "none";
             document.getElementById("ask_length").style.display = "none";
             document.getElementById("ask_button").style.display = "none";
@@ -166,7 +167,7 @@ function toggle_ask_def() {
             document.getElementById("length_p").innerText = "Aucune leçon sélectionnée";
             return;
         } else {
-            document.getElementById("questions_type_select").style.display = "none";
+            questions_type_select.style.display = "none";
             document.getElementById("ask_length_input").style.display = "none";
             document.getElementById("ask_length").style.display = "none";
             document.getElementById("ask_button").style.display = "none";
@@ -185,7 +186,7 @@ function toggle_ask_def() {
             let cols = JSON.parse(localStorage.getItem("?verbs" + e)).columns;
         
             if (JSON.stringify(cols) !== JSON.stringify(first_cols)) {
-                document.getElementById("questions_type_select").style.display = "none";
+                questions_type_select.style.display = "none";
                 document.getElementById("ask_length_input").style.display = "none";
                 document.getElementById("ask_length").style.display = "none";
                 document.getElementById("ask_button").style.display = "none";
@@ -207,7 +208,7 @@ function toggle_ask_def() {
         });
 
         if (isEmpty) {
-            document.getElementById("questions_type_select").style.display = "none";
+            questions_type_select.style.display = "none";
             document.getElementById("ask_length_input").style.display = "none";
             document.getElementById("ask_length").style.display = "none";
             document.getElementById("ask_button").style.display = "none";
@@ -219,8 +220,8 @@ function toggle_ask_def() {
         document.getElementById("length_p").innerText = "Nombre de questions :";
         document.getElementById("ask_length_input").style.display = "inline";
 
-        document.getElementById("questions_type_select").innerHTML = '<option value="auto">Autovalidation</option><option value="qcm">Choix multiples</option><option value="write">Restitution écrite</option>';
-        document.getElementById("questions_type_select").value = 'auto';
+        questions_type_select.innerHTML = '<option value="auto">Autovalidation</option><option value="memory">Memory</option><option value="qcm">Choix multiples</option><option value="write">Restitution écrite</option>';
+        questions_type_select.value = 'auto';
 
         let input_max = 0;
         get_stuff.lessons.forEach((e) => {
@@ -248,7 +249,7 @@ function toggle_ask_def() {
         });
 
         if (isEmpty) {
-            document.getElementById("questions_type_select").style.display = "none";
+            questions_type_select.style.display = "none";
             document.getElementById("ask_length_input").style.display = "none";
             document.getElementById("ask_length").style.display = "none";
             document.getElementById("ask_button").style.display = "none";
@@ -260,8 +261,8 @@ function toggle_ask_def() {
         document.getElementById("length_p").innerText = "Nombre de questions :";
         document.getElementById("ask_length_input").style.display = "inline";
 
-        document.getElementById("questions_type_select").innerHTML = '<option value="random">Aléatoire</option><option value="choice">Déterminé</option>';
-        document.getElementById("questions_type_select").value = 'random';
+        questions_type_select.innerHTML = '<option value="random">Aléatoire</option><option value="choice">Déterminé</option>';
+        questions_type_select.value = 'random';
         
         let input_max = 0;
         get_stuff.lessons.forEach((e) => {
@@ -299,13 +300,32 @@ pack_title_ask.addEventListener("change", () => {
     toggle_ask_def()
 });
 
-document.getElementById("questions_type_select").addEventListener("change", () => {
+questions_type_select.addEventListener("change", () => {
     toggle_verbs_select();
+
+    let getting_stuff = get_pack_value();
+    if (questions_type_select.value === "memory") {
+        let memo_length = 0;
+        getting_stuff.lessons.forEach((e) => {
+            memo_length += JSON.parse(localStorage.getItem(e)).length;
+        });
+        document.getElementById("ask_length_input").max = memo_length;
+        document.getElementById("ask_length_input").value = memo_length;
+        document.getElementById("ask_length_p").innerText = "Max";
+    } else {
+        let max_input_input = 0;
+        getting_stuff.lessons.forEach((e) => {
+            max_input_input += getting_stuff.kind === "verb" ? JSON.parse(localStorage.getItem("?verbs" + e)).length : JSON.parse(localStorage.getItem(e)).length;
+        });
+        document.getElementById("ask_length_input").max = max_input_input * 2;
+        document.getElementById("ask_length_input").value = max_input_input;
+        document.getElementById("ask_length_p").innerText = max_input_input;
+    }
 });
 
 function toggle_verbs_select() {
     let select = document.getElementById("verbs_select");
-    if (document.getElementById("questions_type_select").value === "choice") {
+    if (questions_type_select.value === "choice") {
         select.style.display = "block";
         select.innerHTML = "";
         for (let i = 0; i < JSON.parse(localStorage.getItem("?verbs" + get_pack_value().lessons[0])).columns.length; i++) {
@@ -614,16 +634,12 @@ function actu_files() {
                             console.log("🟢 spoiler clicked");
                         
                             const $ed = $(this.$c).find('.trumbowyg-editor');
-                            console.log("1 - editor found:", $ed.length);
                         
                             $ed.focus();
-                            console.log("2 - editor focused");
                         
                             const restoreResult = $(this.$ed).trumbowyg('restoreRange');
-                            console.log("3 - restoreRange called:", restoreResult);
                         
                             const sel = window.getSelection();
-                            console.log("4 - selection:", sel);
                         
                             if (!sel) {
                                 console.log("❌ no selection object");
@@ -635,12 +651,9 @@ function actu_files() {
                                 return;
                             }
                         
-                            const range = sel.getRangeAt(0);
-                            console.log("5 - range:", range);
-                        
+                            const range = sel.getRangeAt(0);                        
                             const text = range.toString();
-                            console.log("6 - selected text:", text);
-                        
+
                             if (!text) {
                                 console.log("❌ empty selection text");
                                 return;
@@ -650,16 +663,10 @@ function actu_files() {
                             span.className = 'spoiler';
                             span.textContent = text;
                         
-                            console.log("7 - span created:", span);
-                        
-                            range.deleteContents();
-                            console.log("8 - contents deleted");
-                        
+                            range.deleteContents();                        
                             range.insertNode(span);
-                            console.log("9 - span inserted");
                         
                             sel.removeAllRanges();
-                            console.log("10 - selection cleared");
                         
                             console.log("✅ spoiler finished");
                         }
@@ -994,6 +1001,8 @@ function start() {
         });
     }
 
+    questions_type = questions_type_select.value;
+
     data_source = data;
 
     let base_length = data_source.length;
@@ -1020,10 +1029,14 @@ function start() {
         });
     }
 
-    questions_type = questions_type_select.value;
-    if (questions_type === "qcm" && about_ask.length < 5) {
+    
+    if ((questions_type === "qcm" && about_ask.length < 5) || (questions_type === "memory" && about_ask.length < 6)) {
         giga_show("Pas assez d'éléments pour être interrogé");
         return;
+    }
+
+    if (questions_type === "memory") {
+        about_ask = splitIntoMemoryRounds(about_ask);
     }
 
     questions_number = 0;
@@ -1036,6 +1049,7 @@ function start() {
     interrogation_time = 0;
     time_stat = setInterval(() => { interrogation_time += 0.1; }, 100);
     right_answers = 0;
+    wrong_answers_memory = 0;
     right_answers_in_row = 0;
     wrong_answers_in_row = 0;
 
@@ -1129,12 +1143,25 @@ function askQuestion() {
 
         if (questions_type === "write") asking.className = "hide";
         clearInterval(time_stat);
-        let percent = Math.round((right_answers * 100) / questions_number);
+        let percent;
+        if (questions_type === "memory") {
+            percent = Math.round((right_answers * 100) / wrong_answers_memory);
+        } else {
+            percent = Math.round((right_answers * 100) / questions_number);
+        }
+        Math.round((right_answers * 100) / questions_number);
         if (sonor_effects === true) playSound(victory);
         document.getElementById("quit_lesson").className = "hide";
 
-        let points = Math.round((right_answers * percent * asked.length) / 150);
+        let points;
+        if (questions_type === "memory") {
+            points = Math.round((right_answers * 70) - (wrong_answers_memory * 30) / 3);
+            if (points < 0) points = 0;
+        } else {
+            points = Math.round((right_answers * percent * asked.length) / 120);
+        }
         console.log(points);
+
         document.dispatchEvent(new CustomEvent("lesson_end", {
             detail: {
                 points_number: points,
@@ -1157,10 +1184,22 @@ function askQuestion() {
         animateNumber("points", document.getElementById("animate_points"), points);
 
         let count = 0;
+        let it_is_scrollable = false;
+        console.log(getComputedStyle(ask_div.querySelector("p").style.overflowY));
+        if (getComputedStyle(ask_div.querySelector("p").style.overflowY) === "scroll") {
+            ask_div.querySelector("p").style.overflowY = "hidden";
+            it_is_scrollable = true;
+        }
         const interval = setInterval(() => {
             spawnConfetti();
             count++;
-            if (count >= 150) clearInterval(interval);
+            if (count >= 150) {
+                clearInterval(interval);
+
+                if (it_is_scrollable) {
+                    ask_div.querySelector("p").style.overflowY = "scroll";
+                }
+            }
         }, 25);
 
         let continue_button = document.createElement("button");
@@ -1198,7 +1237,8 @@ function askQuestion() {
         title = about_ask[question_id].def;
     }
 
-    if (!verbs) {
+    if (questions_type === "auto" || questions_type === "qcm" || questions_type === "write") {
+
         if (interrogation_side === 0) {
             if (about_ask[question_id].kind === "defs") show("Quelle est la définition de : <br>\"" + title + "\" ?");
             else if (about_ask[question_id].kind === "dates") {
@@ -1210,7 +1250,9 @@ function askQuestion() {
             else if (about_ask[question_id].kind === "dates") show("Quelle date va avec \"" + title + "\" ?");
             else if (about_ask[question_id].kind === "egal") show("\"" + title + "\" est égal à :");
         }
-    } else {
+
+    } else if (questions_type === "random" || questions_type === "choice") {
+
         let show_div = document.createElement("div");
         show_div.innerHTML = "<p id='complete_verbs_grid'>Complète :</p> <br>";
         show_div.className = "verbs-grid";
@@ -1242,11 +1284,184 @@ function askQuestion() {
         });
         show_div.appendChild(row);
         show(show_div);
+
+    } else if (questions_type === "memory") {
+
+        let memory_container = document.createElement("div");
+        memory_container.innerHTML = "<p style='text-align: center'>Trouve les paires :</p>";
+
+        let memory_div = document.createElement("div");
+        memory_div.className = "memory";
+        memory_container.appendChild(memory_div);
+
+        let table = about_ask[question_id];
+        table = shuffle(table);
+
+        let all_titles = [];
+        let all_defs = [];
+        table.forEach((e, i) => {
+            all_titles.push({title_or_def: e.title, id: i});
+            all_defs.push({title_or_def: e.def, id: i});
+        });
+        all_titles = shuffle(all_titles);
+        all_defs = shuffle(all_defs);
+        
+        let the_length = all_titles.length + all_defs.length;
+
+        for (let i = 0; i < the_length; i++) {
+
+            let card = document.createElement("div");
+            card.className = "card";
+            memory_div.appendChild(card);
+
+            let card_inner = document.createElement("div");
+            card_inner.className = "card-inner";
+            card.appendChild(card_inner);
+
+            let card_front = document.createElement("div");
+            card_front.className = "card-front";
+            card_inner.appendChild(card_front);
+
+            let card_back = document.createElement("div");
+            card_back.className = "card-back";
+            card_inner.appendChild(card_back);
+
+            if (getRandom(0, 2) === 0) {
+                if (all_titles.length !== 0) {
+                    card_back.innerHTML = all_titles[0].title_or_def;
+                    card.dataset.id = all_titles[0].id;
+                    all_titles.shift();
+                } else {
+                    card_back.innerHTML = all_defs[0].title_or_def;
+                    card.dataset.id = all_defs[0].id;
+                    all_defs.shift();
+                }
+            } else {
+                if (all_defs.length !== 0) {
+                    card_back.innerHTML = all_defs[0].title_or_def;
+                    card.dataset.id = all_defs[0].id;
+                    all_defs.shift();
+                } else {
+                    card_back.innerHTML = all_titles[0].title_or_def;
+                    card.dataset.id = all_titles[0].id;
+                    all_titles.shift();
+                }
+            }   
+
+            card.addEventListener("click", select_card);
+        }
+
+        let selected_divs = [];
+        let cards_guessed = [];
+
+        function select_card(e) {
+            const card = e.currentTarget;
+            card.querySelector(".card-inner").classList.toggle("card_selected");
+
+            if (selected_divs.includes(card)) {
+                const index = selected_divs.indexOf(card);
+                selected_divs.splice(index, 1);
+            } else {
+                selected_divs.push(card);
+            }
+
+            if (selected_divs.length === 2) {
+                guessing();
+            }
+        }
+
+        function guessing() {
+            console.log("guessing");
+
+            memory_div.querySelectorAll(".card").forEach((e) => {
+                e.removeEventListener("click", select_card);
+            });
+
+            selected_divs.forEach((e) => {
+                e.classList.toggle("flipped");
+            });
+
+            setTimeout(() => {
+
+                if (!(selected_divs[0].dataset.id === selected_divs[1].dataset.id)) {
+
+                    wrong_answers_memory += 1;
+                    wrong_answers_in_row += 1;
+                    right_answers_in_row = 0;
+
+                    ask_div.addEventListener("click", ask_div_eventListener);
+
+                    function ask_div_eventListener() {
+                        ask_div.removeEventListener("click", ask_div_eventListener);
+
+                        selected_divs.forEach((e) => {
+
+                            e.classList.toggle("flipped");
+                            e.querySelector(".card-inner").classList.toggle("card_selected");
+
+                            selected_divs = [];
+
+                            setTimeout(() => {
+                                memory_div.querySelectorAll(".card").forEach((e) => {
+                                    if (!cards_guessed.includes(e)) e.addEventListener("click", select_card);
+                                });
+                            }, 700);
+                        });
+                    }
+                } else {
+
+                    right_answers += 1;
+                    wrong_answers_in_row = 0;
+                    right_answers_in_row += 1;
+
+                    selected_divs.forEach((e) => {
+                        e.querySelector(".card-inner").querySelector(".card-back").classList.add("card_over");
+                        e.querySelector(".card-inner").classList.toggle("card_selected");
+                        cards_guessed.push(e);
+                    });
+
+                    selected_divs = [];
+
+                    setTimeout(() => {
+                        memory_div.querySelectorAll(".card").forEach((e) => {
+                            if (!cards_guessed.includes(e)) e.addEventListener("click", select_card);
+                        });
+                    }, 700);
+                }
+
+                if (cards_guessed.length === (table.length * 2)) {
+                    memory_container.removeChild(memory_container.querySelector("p"));
+                    
+                    next.className = "shown";
+                    next.onclick = () => {
+                        askQuestion();
+                        next.remove();
+                        reveal.remove();
+                    };
+                }
+
+            }, 700);
+        }
+
+        show(memory_container);
+
+        setTimeout(() => {
+            memory_div.querySelectorAll(".card").forEach((e) => {
+                fitText(e.querySelector(".card-inner").querySelector(".card-back"));
+            });
+        }, 0);   
     }
 
     let reveal = document.createElement("button");
     reveal.id = "reveal";
-    reveal.innerText = (questions_type === "auto" || questions_type === "random" || questions_type === "choice") ? "Valider" : "Voir la réponse";
+    if (questions_type === "auto" || questions_type === "random" || questions_type === "choice") {
+        reveal.innerText = "Valider";
+    } else if (questions_type === "write" || questions_type === "qcm") {
+        reveal.innerText = "Voir la réponse";
+    } else if (questions_type === "memory") {
+        reveal.innerText = "Voir les réponses";
+    }
+
     reveal.className = "shown";
     reveal.style.color = toggle_t ? "white" : "black";
     ask_div.appendChild(reveal);
@@ -1278,6 +1493,9 @@ function askQuestion() {
                 reveal.remove();
             };
         };
+    } else if (questions_type === "memory") {
+        reveal.className = "hide";
+
     } else if (questions_type === "auto") {
         reveal.onclick = reveal_it;
         document.addEventListener("keydown", pre_revealing);
@@ -1584,6 +1802,92 @@ function askQuestion() {
                 randomise.shift();
             }
         }
+    }
+}
+
+/*----MEMORY DISTINCT PART----
+ POUR PAS TROP DE BORDEL DANS ASK_QUESTION*/
+
+function createMemoryRounds(total) {
+
+    const MIN_PAIRS = 6;
+    const MAX_PAIRS = 8;
+
+    if (total <= MIN_PAIRS) {
+        return [total];
+    }
+
+    const rounds = Math.ceil(total / MAX_PAIRS);
+
+    const base = Math.floor(total / rounds);
+
+    const extra = total % rounds;
+
+    let result = [];
+
+    for (let i = 0; i < rounds; i++) {
+
+        let amount = base;
+
+        if (i < extra) {
+            amount++;
+        }
+
+        result.push(amount);
+    }
+
+    return result;
+}
+
+function splitIntoMemoryRounds(questions) {
+
+    const sizes = createMemoryRounds(questions.length);
+
+    let result = [];
+
+    let start = 0;
+
+    for (let size of sizes) {
+
+        let round = questions.slice(start, start + size);
+
+        result.push(round);
+
+        start += size;
+    }
+
+    return result;
+}
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+}
+
+function fitText(element) {
+
+    let fontSize = 40;
+
+    element.style.fontSize = fontSize + "px";
+
+    while (
+        (
+            element.scrollHeight > element.clientHeight ||
+            element.scrollWidth > element.clientWidth
+        )
+        &&
+        fontSize > 10
+    ) {
+
+        fontSize--;
+
+        element.style.fontSize = fontSize + "px";
     }
 }
 
@@ -1963,37 +2267,3 @@ function get_pdf(html_editor) {
     win.document.close();
     win.print();
 }*/
-
-/*Allez : juste pour les 2000 !!!!!!*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*LETTTSSSS GOOOOOOOO*/

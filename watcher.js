@@ -291,8 +291,6 @@ function unlockAudio() {
     audio.volume = 0;
 
     audio.play();
-
-    console.log("Audio unlocked");
 }
 
 
@@ -809,7 +807,10 @@ async function update_streak_state() {
     if (lastSkipReward) {
 
         const diffWeeks = Math.floor(
-            (now - lastSkipReward) / (1000 * 60 * 60 * 24 * 7)
+            (
+                dayStringToNumber(now) -
+                dayStringToNumber(lastSkipReward)
+            ) / 7
         );
 
         console.log("Semaines écoulées :", diffWeeks);
